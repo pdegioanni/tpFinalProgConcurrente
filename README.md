@@ -1,4 +1,4 @@
-# tpFinalProgConcurrente
+﻿# tpFinalProgConcurrente
 Planteo del problema:
 
 Se consideró para el problema un sector de una planta, en donde existen tres tipos de mecanizado para distintas piezas:
@@ -9,3 +9,4 @@ Se consideró para el problema un sector de una planta, en donde existen tres ti
 
 •	En el tercer y último caso, los operarios del sector B cortan la pieza, la liman y utilizan el torno, sin contar con hoja de mecanizado, ya que es una tarea repetitiva.
 Cada operación realizada cuenta con un tiempo dado
+.
