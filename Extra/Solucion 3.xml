@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8"?><pnml>
+    <net id="Net-One" type="P/T net">
+        <token id="Default" enabled="true" red="0" green="0" blue="0"/>
+        <place id="P1">
+            <graphics>
+                <position x="266" y="100"/>
+            </graphics>
+            <name>
+                <value>P1</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P2">
+            <graphics>
+                <position x="196" y="247"/>
+            </graphics>
+            <name>
+                <value>P2</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P3">
+            <graphics>
+                <position x="319" y="244"/>
+            </graphics>
+            <name>
+                <value>P3</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P4">
+            <graphics>
+                <position x="255" y="400"/>
+            </graphics>
+            <name>
+                <value>P4</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P5">
+            <graphics>
+                <position x="619" y="406"/>
+            </graphics>
+            <name>
+                <value>P5</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P6">
+            <graphics>
+                <position x="616" y="234"/>
+            </graphics>
+            <name>
+                <value>P6</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P7">
+            <graphics>
+                <position x="614" y="86"/>
+            </graphics>
+            <name>
+                <value>P7</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P8">
+            <graphics>
+                <position x="450" y="16"/>
+            </graphics>
+            <name>
+                <value>P8</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,1</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P9">
+            <graphics>
+                <position x="459" y="219"/>
+            </graphics>
+            <name>
+                <value>P9</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,1</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P10">
+            <graphics>
+                <position x="465" y="406"/>
+            </graphics>
+            <name>
+                <value>P10</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,1</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P11">
+            <graphics>
+                <position x="90" y="241"/>
+            </graphics>
+            <name>
+                <value>P11</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,1</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P12">
+            <graphics>
+                <position x="16" y="246"/>
+            </graphics>
+            <name>
+                <value>P12</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,3</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P13">
+            <graphics>
+                <position x="753" y="245"/>
+            </graphics>
+            <name>
+                <value>P13</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,3</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P15">
+            <graphics>
+                <position x="395" y="476"/>
+            </graphics>
+            <name>
+                <value>P15</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P16">
+            <graphics>
+                <position x="454" y="117"/>
+            </graphics>
+            <name>
+                <value>P16</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <place id="P17">
+            <graphics>
+                <position x="463" y="316"/>
+            </graphics>
+            <name>
+                <value>P17</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <initialMarking>
+                <value>Default,0</value>
+            </initialMarking>
+            <capacity>
+                <value>0</value>
+            </capacity>
+        </place>
+        <transition id="T1">
+            <graphics>
+                <position x="263" y="24"/>
+            </graphics>
+            <name>
+                <value>T1</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T2">
+            <graphics>
+                <position x="200" y="163"/>
+            </graphics>
+            <name>
+                <value>T2</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T3">
+            <graphics>
+                <position x="324" y="159"/>
+            </graphics>
+            <name>
+                <value>T3</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T4">
+            <graphics>
+                <position x="199" y="318"/>
+            </graphics>
+            <name>
+                <value>T4</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T5">
+            <graphics>
+                <position x="318" y="316"/>
+            </graphics>
+            <name>
+                <value>T5</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T6">
+            <graphics>
+                <position x="259" y="477"/>
+            </graphics>
+            <name>
+                <value>T6</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T7">
+            <graphics>
+                <position x="624" y="478"/>
+            </graphics>
+            <name>
+                <value>T7</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T8">
+            <graphics>
+                <position x="619" y="323"/>
+            </graphics>
+            <name>
+                <value>T8</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T9">
+            <graphics>
+                <position x="615" y="151"/>
+            </graphics>
+            <name>
+                <value>T9</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <transition id="T10">
+            <graphics>
+                <position x="611" y="20"/>
+            </graphics>
+            <name>
+                <value>T10</value>
+                <graphics>
+                    <offset x="5" y="33"/>
+                </graphics>
+            </name>
+            <orientation>
+                <value>270</value>
+            </orientation>
+            <rate>
+                <value>1.0</value>
+            </rate>
+            <timed>
+                <value>false</value>
+            </timed>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <priority>
+                <value>1</value>
+            </priority>
+        </transition>
+        <arc id="AP17T3" source="P17" target="T3">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="inhibitor"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP17T8" source="P17" target="T8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT7P17" source="T7" target="P17">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP16T1" source="P16" target="T1">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="inhibitor"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP16T9" source="P16" target="T9">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT8P16" source="T8" target="P16">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP15T6" source="P15" target="T6">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT3P15" source="T3" target="P15">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT2P15" source="T2" target="P15">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP15T7" source="P15" target="T7">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="inhibitor"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT8P10" source="T8" target="P10">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT6P10" source="T6" target="P10">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP10T4" source="P10" target="T4">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP10T5" source="P10" target="T5">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP10T7" source="P10" target="T7">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT10P13" source="T10" target="P13">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+            <breakPoint x="751" y="18"/>
+        </arc>
+        <arc id="AT2P8" source="T2" target="P8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT3P8" source="T3" target="P8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP8T9" source="P8" target="T9">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP9T8" source="P9" target="T8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT9P9" source="T9" target="P9">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP8T1" source="P8" target="T1">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT10P8" source="T10" target="P8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP7T10" source="P7" target="T10">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT9P7" source="T9" target="P7">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP6T9" source="P6" target="T9">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT8P6" source="T8" target="P6">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP5T8" source="P5" target="T8">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT7P5" source="T7" target="P5">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP13T7" source="P13" target="T7">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+            <breakPoint x="757" y="479"/>
+        </arc>
+        <arc id="AT6P12" source="T6" target="P12">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+            <breakPoint x="15" y="482"/>
+        </arc>
+        <arc id="AP3T5" source="P3" target="T5">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT5P9" source="T5" target="P9">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP9T3" source="P9" target="T3">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT3P3" source="T3" target="P3">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP4T6" source="P4" target="T6">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT5P4" source="T5" target="P4">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT4P4" source="T4" target="P4">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP2T4" source="P2" target="T4">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT4P11" source="T4" target="P11">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP11T2" source="P11" target="T2">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT2P2" source="T2" target="P2">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP1T3" source="P1" target="T3">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP1T2" source="P1" target="T2">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AT1P1" source="T1" target="P1">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+        </arc>
+        <arc id="AP12T1" source="P12" target="T1">
+            <inscription>
+                <value>Default,1</value>
+                <graphics/>
+            </inscription>
+            <type value="regular"/>
+            <exported>true</exported>
+            <breakPoint x="12" y="25"/>
+        </arc>
+    </net>
+</pnml>
