@@ -29,8 +29,8 @@ private Scanner input;
 ////Constructor 
 public RDP() {
 	
-	numeroTransiciones = Transiciones("C:\\Users\\Administrador\\Desktop\\TP final\\M.I.txt");	//Extraccion de la cantidad de transiciones.
-	numeroPlazas = Plazas("C:\\Users\\Administrador\\Desktop\\TP final\\M.I.txt");				//Extraccion de la cantidad de plazas.
+	numeroTransiciones = Transiciones("matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
+	numeroPlazas = Plazas("matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
 	//Matrices
 	Incidencia = new Matriz(numeroPlazas,numeroTransiciones);
 	IEntrada = new Matriz(numeroPlazas,numeroTransiciones);
