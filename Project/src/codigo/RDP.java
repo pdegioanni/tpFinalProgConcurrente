@@ -12,9 +12,11 @@ public class RDP {
 /////////Marcado inicial/////////////////////////////////////////////////////////
 	
 //private int [] VE  = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // Indica el numero de transciones sensibilizadas
-private String[] Plazas = {"P1","P10","P11","P12","P13","P2","P3","P4","P5","P6","P7","P8","P9"};
-private String [] Transiciones = {"T1","T10","T2","T3","T4","T5","T6","T7","T8","T9"};
+//private String[] Plazas = {"P1","P10","P11","P12","P13","P2","P3","P4","P5","P6","P7","P8","P9"};
+//private String [] Transiciones = {"T1","T10","T2","T3","T4","T5","T6","T7","T8","T9"};
 // private int [] Places = {0,1,10,13,14,15,17,18,19,20,22,23,24,25,26,27,28,29,3,30,31,4,5,8,9};
+private String [] Transiciones;
+private String[] Plazas;
 
 private Matriz IEntrada,ISalida,Incidencia,Inhibicion,Identidad;
 private Matriz VectorMarcadoInicial, VectorMarcadoActual, VectorMarcadoNuevo;
@@ -29,14 +31,16 @@ private Scanner input;
 ////Constructor 
 public RDP() {
 	
-	numeroTransiciones = Transiciones("matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
-	numeroPlazas = Plazas("matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
+	numeroTransiciones = cargarTransiciones("matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
+	numeroPlazas = cargarPlazas("matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
+
 	//Matrices
 	Incidencia = new Matriz(numeroPlazas,numeroTransiciones);
 	IEntrada = new Matriz(numeroPlazas,numeroTransiciones);
 	ISalida = new Matriz(numeroPlazas,numeroTransiciones);
 	Inhibicion = new Matriz(numeroPlazas,numeroTransiciones);
 	Identidad = new Matriz(numeroTransiciones,numeroTransiciones);
+
 	//Vectores
 	VectorMarcadoInicial = new Matriz(1,numeroPlazas);
 	VectorMarcadoActual = new Matriz(1,numeroPlazas);
@@ -45,6 +49,7 @@ public RDP() {
 	VectorInhibicion = new Matriz(1,numeroTransiciones);
 	VectorExtendido = new Matriz(1,numeroTransiciones);
 	
+	//Carga de datos
 	Incidencia.cargarMatriz("C:\\Users\\Administrador\\Desktop\\TP final\\M.I.txt");
 	IEntrada.cargarMatriz("C:\\Users\\Administrador\\Desktop\\TP final\\M.Pre.txt");
 	ISalida.cargarMatriz("C:\\Users\\Administrador\\Desktop\\TP final\\M.Post.txt");
@@ -57,59 +62,70 @@ public RDP() {
 }
 /**
  * Este metodo devuelve la cantidad de transiciones disponibles en la red
- * @param Matriz Matriz de incidencia
+ * @param pathMI la ruta al archivo de texto que contiene la matriz de incidencia
  * @return transiciones de la red    
  */
-private int Transiciones(String Matriz){
-	int transiciones = 0;
-	System.out.println("Path "+Matriz);
+private int cargarTransiciones(String pathMI){
+	int nrotrans = 0;
+	System.out.println("Path: "+pathMI);
 	try { 
-		input = new Scanner(new File(Matriz));
-		while (input.hasNextLine()) {
-			String line = input.nextLine();
-			for (int fila = 0 ; fila <line.length (); fila ++) {
-				char c = line.charAt (fila);
-				if(c == '1' || c == '0') {
-					transiciones ++ ;
-				}
-			}
-			break;
+		input = new Scanner(new File(pathMI));
+		//while (input.hasNextLine()) {
+		String line = input.nextLine();
+		for (int columna = 0; columna < line.length (); columna ++) {
+			char c = line.charAt (columna);
+			if(c == '1' || c == '0') nrotrans ++ ;
+				//Transiciones[nrotrans]= "T"+nrotrans;
 		}
+		setStringTranciones(nrotrans);
+			//break;
+		//}
 	} 
 	catch (IOException e) {
 		e.printStackTrace();
 	}
 	//System.out.println("transiciones --->"+transiciones);
-	return transiciones;
+	return nrotrans;
  }
+
 /**
  * Este metodo devuelve la cantidad de plazas disponible en la red
- * @param Matriz Matriz de incidencia
+ * @param pathMI la ruta al archivo de texto que contiene la matriz de incidencia
  * @return Plazas de la red
  */
-private int Plazas(String Matriz) {
-	int Plazas = 0;
+private int cargarPlazas(String pathMI) {
+	int nroPlazas = 0;
 	try { 
-		input = new Scanner(new File(Matriz));
+		input = new Scanner(new File(pathMI));
 		while (input.hasNextLine()) {
 			 input.nextLine();
-		     Plazas ++ ;
+			 //Plazas[nroPlazas] = "P"+nroPlazas;
+		     nroPlazas ++;
 		}
+		setStringPlazas(nroPlazas);
 	} 
   catch (IOException e) {
 	  e.printStackTrace();
   }
 	//System.out.println("Plazas -->"+Plazas);
-	return Plazas;
+	return nroPlazas;
 }
+
+	private void setStringTranciones(int nroT) {
+		Transiciones = new String[nroT];
+		for(int t = 0; t<nroT; t++) Transiciones[t] = "T"+t;
+	}
+	private void setStringPlazas(int nroP) {
+		Plazas = new String[nroP];
+		for(int p = 0; p<nroP; p++) Transiciones[p] = "P"+p;
+	}
+
 /** 
  * Este metodo calcula las transiciones sensibilizadas de rdp (VE)
  * @param transicion : transicion la que se desea saber si está habilitada o no.
  * @return verdadero estan habilitadas 
  */
 public boolean estaSensibilizada(int transicion) {
-	
-	
 	if(VectorExtendido.getDato(0, transicion)==1){
 		return true;
 	}
@@ -207,13 +223,11 @@ public boolean Disparar(int transicion){
 public void mostrar(Matriz vector ,int Tipo) {
 	    //System.out.println("\n");
 		if(Tipo == 0) {
-			
 			for(int n=0 ; n<vector.getNumColumnas() ; n++) System.out.print(Transiciones[n] +":" + vector.getDato(0, n) +" ");
-			}
+		}
 		else if(Tipo > 0) {
-			
 			for(int n=0 ; n<vector.getNumColumnas() ; n++) System.out.print(Plazas [n] +":" +  vector.getDato(0, n) +" ");
-	        }
+		}
 		System.out.println("\n");
 }
 
