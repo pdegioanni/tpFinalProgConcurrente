@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Matriz {
-
-
 	//Campos
 	private int matriz[][];
 	private int filas;
@@ -25,12 +23,12 @@ public class Matriz {
 	}
 	/**
 	 * Constructor de la clase Matriz
-	 * @param matriz se recibe una matriz
+	 * @param matrizModelo se recibe una matriz modelo
 	 */
-	public Matriz(int matriz[][]) {
-		this.matriz = matriz;
-		filas = matriz.length;
-		columnas = matriz[0].length;
+	public Matriz(Matriz matrizModelo) {
+		this.matriz = matrizModelo.matriz;
+		filas = matrizModelo.getNumFilas();
+		columnas = matrizModelo.getNumColumnas();
 	}
 	/**
 	 * Devuelve la cantidad de filas que tiene la matriz
@@ -46,6 +44,7 @@ public class Matriz {
 	public int getNumColumnas(){
 		return columnas;
 	}
+
 	/**
 	 * Metodo para cargar un dato en una detarminada fila y columna
 	 * @param fi fila en la que se quiere cargar el dato
@@ -55,16 +54,15 @@ public class Matriz {
 	public void setDato(int fi, int co, int dato){
 		matriz[fi][co]=dato;
 	}
+
 	/**
 	 * Metodo para obtener el dato de una determinada fila y columna
 	 * @param fi fila de la cual se quiere obtener el dato
 	 * @param co columna de la cual se quiere obtener el dato
 	 * @return dato
 	 */
-	public int getDato(int fi, int co){
-		int dato = matriz[fi][co];
-		return dato;
-	}
+	public int getDato(int fi, int co){ return matriz[fi][co]; }
+
 	/**
 	 * Metodo para saber si la matriz es nula (todos sus elementos = 0)
 	 * @return true si es nula
@@ -99,59 +97,48 @@ public class Matriz {
 	 */
 	public void cargarMatriz(String archivo){
 		 int fila=0;
-		
 		 try { 
-				input = new Scanner(new File(archivo));
-					while (input.hasNextLine()) {
-						String  line = input.nextLine();
-						//System.out.println(line);
-                        String[] linea = line.split("	"); 
-			        	for (int columna = 0; columna < columnas; columna++) { 
-			        		//System.out.println("Fila "+fila+ "Columna" + columna +"--->" +linea[columna]);
-			        		matriz[fila][columna] = Integer.parseInt(linea[columna]);
-			        	}
-			        	fila ++;
-					}          
-	      } 
-	      catch (IOException e) {
+		 	input = new Scanner(new File(archivo));
+			while (input.hasNextLine()) {
+				String linea = input.nextLine();
+				//System.out.println(line);
+				String[] datos = linea.split("	");
+			    for (int columna = 0; columna < columnas; columna++) matriz[fila][columna] = Integer.parseInt(datos[columna]);
+			    //System.out.println("Fila "+fila+ "Columna" + columna +"--->" +linea[columna]);
+			    fila ++;
+			}
+	      } catch (IOException e) {
 	             e.printStackTrace();
 	      }
-		 
 	}
+
 	/**
-	 * Metodo que realiza la operacion and entre la matriz que llama 
-	 * el metodo y la que se pasa por parametro
-	 * @param Matriz
+	 * Metodo que realiza la operacion logica AND entre la matriz que llama
+	 * el metodo y la matriz que se pasa por parametro
+	 * @param B La matriz con la que se hace la operacion AND
 	 * @return
 	 */
 	public Matriz getAnd(Matriz B){
-		Matriz And = new Matriz(B.getNumFilas(),B.getNumColumnas());
-		
+		Matriz And = new Matriz(B);
 		for(int i=0; i<this.getNumFilas(); i++) {
-			
 			for(int j=0; j<this.getNumColumnas(); j++) {
-				
-				if(this.getDato(i,j) == 1 && B.getDato(i, j) == 1) {
-					And.setDato(i,j,1);
-				}
-				else {
-					And.setDato(i, j, 0);
-				}
+				if(this.getDato(i,j) == 1 && B.getDato(i, j) == 1) And.setDato(i,j,1);
+				else And.setDato(i, j, 0);
 			}
 		}
 		return And;
 	}
 	/**
-	 * Metodo que realiza la multiplicacion entre la matriz que llama
-	 * el metodo y la que se pasa por parametro
-	 * @param B
+	 * Metodo que realiza la multiplicacion entre la matriz que llama (A)
+	 * el metodo y la que se pasa por parametro (B)
+	 * @param B matriz que es el segundo termino de la multiplicacion
 	 * @return matriz con el resultado (A X B)
 	 */
 	public Matriz getMultiplicacion(Matriz B) {
 		if(this.getNumColumnas()!=B.getNumFilas()) {
-			throw new RuntimeException("Diferentes Tamaños");
+			throw new RuntimeException("Las matrices tienen diferentes tamaños");
 		}
-		Matriz Mult = new Matriz(this.getNumFilas(),B.getNumColumnas());
+		Matriz Mult = new Matriz(B);
 		int dat=0;
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<B.getNumColumnas(); j++) {
@@ -164,9 +151,10 @@ public class Matriz {
 		}
 		return Mult;
 	}
+
 	/**
 	 * Metodo que transpone la matriz que llama este metodo
-	 * @return matriz transpuesta
+	 * @return Matriz transpuesta
 	 */
 	public Matriz getTranspuesta() {
 		Matriz Transpuesta = new Matriz(this.getNumColumnas(),this.getNumFilas());
@@ -177,20 +165,17 @@ public class Matriz {
 		}
 		return Transpuesta;
 	}
+
 	/**
-	 * Metodo que devuelve el complemento de la matriz que llamo el metodo
-	 * @return matriz complemento
+	 * Metodo que devuelve una matriz con los datos complementarios de la matriz que llamo el metodo
+	 * @return Matriz complemento
 	 */
 	public Matriz getComplemento() {
-		Matriz comp = new Matriz(this.getNumFilas(),this.getNumColumnas());
+		Matriz comp = new Matriz(this);
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<this.getNumColumnas(); j++) {
-				if(this.getDato(i, j) == 0) {
-					comp.setDato(i, j, 1);
-				}
-				else {
-					comp.setDato(i, j, 0);
-				}
+				if(this.getDato(i, j) == 0) comp.setDato(i, j, 1);
+				else comp.setDato(i, j, 0);
 			}
 		}
 		return comp;
@@ -201,35 +186,44 @@ public class Matriz {
 	public void cargarIdentidad() {
 		for(int i=0; i<this.getNumFilas();i++) {
 			for(int j=0; j<this.getNumColumnas();j++) {
-				if(j==i) {
-					this.setDato(i, j, 1);
-				}
-				else {
-					this.setDato(i, j, 0);
-				}
+				if(j==i) this.setDato(i, j, 1);
+				else this.setDato(i, j, 0);
 			}
 		}
 	}
 	/**
-	 * Metodo que devuelve la columna correspondiente a la tansicion
-	 * @param transicion 
-	 * @return columna de la matriz transpuesta
+	 * Metodo que devuelve la columna correspondiente de la matriz
+	 * @param columna La columna a devolver
+	 * @return columna indicada de la matriz
 	 */
 	public Matriz getColumna(int columna) {
-		Matriz col = new Matriz(this.getNumColumnas(),1);
-		for(int i=0; i<this.getNumColumnas();i++) {
+		Matriz col = new Matriz(this.getNumFilas(),1);
+		for(int i=0; i<this.getNumFilas();i++) {
 			col.setDato(i, 0, this.getDato(i,columna));
 		}
 		return col;
 	}
 	/**
-	 * Metodo que devuelve la suma entre la matriz que llama el metodo
+	 * Metodo que devuelve la fila correspondiente de la matriz
+	 * @param fila La fila a devolver
+	 * @return fila indicada de la matriz
+	 */
+	public Matriz getFila(int fila) {
+		Matriz fil = new Matriz(1,this.getNumColumnas());
+		for(int j=0; j<this.getNumColumnas();j++) {
+			fil.setDato(j, 0, this.getDato(fila,j));
+		}
+		return fil;
+	}
+
+	/**
+	 * Metodo que devuelve la suma elemento a elemento entre la matriz que llama el metodo
 	 * y la que se pasa como parametro
 	 * @param B matriz con la que se sumara
 	 * @return suma de las dos matrices
 	 */
 	public Matriz getSuma(Matriz B) {
-		Matriz suma = new Matriz(this.getNumFilas(),this.getNumColumnas());
+		Matriz suma = new Matriz(B);
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<this.getNumColumnas(); j++) {
 				int resultado = this.getDato(i, j)+B.getDato(i, j);
