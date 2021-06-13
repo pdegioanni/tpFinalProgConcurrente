@@ -10,6 +10,7 @@ public class Matriz {
 	private int filas;
 	private int columnas;
 	private Scanner input;
+
 	/**
 	 * Constructor de la clase Matriz
 	 * @param filas numero de filas
@@ -21,6 +22,7 @@ public class Matriz {
 		this.columnas = columnas;
 		matriz = new int [filas][columnas];
 	}
+
 	/**
 	 * Constructor de la clase Matriz
 	 * @param matrizModelo se recibe una matriz modelo
@@ -30,20 +32,18 @@ public class Matriz {
 		filas = matrizModelo.getNumFilas();
 		columnas = matrizModelo.getNumColumnas();
 	}
+
 	/**
 	 * Devuelve la cantidad de filas que tiene la matriz
 	 * @return filas numero de filas
 	 */
-	public int getNumFilas() {
-		return filas;
-	}
+	public int getNumFilas() { return filas; }
+
 	/**
 	 * Devuelve la cantidad de columnas que tiene la matriz
 	 * @return columnas numero de columnas
 	 */
-	public int getNumColumnas(){
-		return columnas;
-	}
+	public int getNumColumnas(){ return columnas; }
 
 	/**
 	 * Metodo para cargar un dato en una detarminada fila y columna
@@ -77,6 +77,7 @@ public class Matriz {
 	}
 	return true;
 	}
+
 	/**
 	 * Metodo para imprimir los datos contenidos en la matriz
 	 */
@@ -91,6 +92,7 @@ public class Matriz {
 		}
 		System.out.println("############################################");
 	}
+
 	/**
 	 * 
 	 * @param archivo
@@ -128,6 +130,7 @@ public class Matriz {
 		}
 		return And;
 	}
+
 	/**
 	 * Metodo que realiza la multiplicacion entre la matriz que llama (A)
 	 * el metodo y la que se pasa por parametro (B)
@@ -180,6 +183,7 @@ public class Matriz {
 		}
 		return comp;
 	}
+
 	/**
 	 * Metodo que carga una matriz como una matriz identidad
 	 */
@@ -191,6 +195,7 @@ public class Matriz {
 			}
 		}
 	}
+
 	/**
 	 * Metodo que devuelve la columna correspondiente de la matriz
 	 * @param columna La columna a devolver
@@ -203,6 +208,7 @@ public class Matriz {
 		}
 		return col;
 	}
+
 	/**
 	 * Metodo que devuelve la fila correspondiente de la matriz
 	 * @param fila La fila a devolver
