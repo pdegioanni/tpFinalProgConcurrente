@@ -62,9 +62,10 @@ public class Monitor {
 			red.mostrar(red.getVectorMA(), 2);
 			red.mostrar(red.getMatrizInhibicion(), 0);
 			k=red.Disparar(n_transicion);//, modo_de_disparo);
-			System.out.println("Se disparo :T"+n_transicion +" ->" + k);
+			System.out.println("################## Se disparo :T"+(n_transicion+1) +" -> " + k +" ##################\n");
 			
 			red.mostrar(red.getSensibilizadas(), 0);
+			red.mostrar(red.getMatrizInhibicion(), 0);
 			red.mostrar(red.getVectorMA(), 2);
 			System.out.println("========================================================");
 			/*if(k==true){

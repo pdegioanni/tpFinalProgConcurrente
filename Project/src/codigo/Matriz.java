@@ -103,15 +103,17 @@ public class Matriz {
 		 	input = new Scanner(new File(archivo));
 			while (input.hasNextLine()) {
 				String linea = input.nextLine();
-				//System.out.println(line);
 				String[] datos = linea.split("	");
-			    for (int columna = 0; columna < columnas; columna++) matriz[fila][columna] = Integer.parseInt(datos[columna]);
-			    //System.out.println("Fila "+fila+ "Columna" + columna +"--->" +linea[columna]);
-			    fila ++;
+			    for (int columna = 0; columna < columnas; columna++) {
+			    	
+			    	matriz[fila][columna] = Integer.parseInt(datos[columna]);
+			    }
+			    	fila ++;
 			}
 	      } catch (IOException e) {
 	             e.printStackTrace();
 	      }
+		
 	}
 
 	/**
@@ -141,13 +143,16 @@ public class Matriz {
 		if(this.getNumColumnas()!=B.getNumFilas()) {
 			throw new RuntimeException("Las matrices tienen diferentes tamaños");
 		}
-		Matriz Mult = new Matriz(B);
+		//Matriz Mult = new Matriz(B);
+		Matriz Mult = new Matriz(this.getNumFilas(),B.getNumColumnas());
+		//B.setDato(1, 1, 2);
 		int dat=0;
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<B.getNumColumnas(); j++) {
 				for(int k=0; k<B.getNumFilas(); k++) {
 					dat += this.getDato(i, k) * B.getDato(k, j);
 				}
+				//System.out.println("--->"+i+"--"+ j+"--"+ dat);
 				Mult.setDato(i, j, dat);
 				dat=0;
 			}
