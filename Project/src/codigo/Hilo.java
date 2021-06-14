@@ -15,7 +15,7 @@ public class Hilo implements Runnable {
 		while(continuar) {
 			for(int i=0;i<secuencia.length;i++) {
 				//System.out.println("Hilo :"+nombre);
-				monitor.dispararTransicion(secuencia[i]);
+				monitor.dispararTransicion(secuencia[i]-1);
 			}
 		}
 	}

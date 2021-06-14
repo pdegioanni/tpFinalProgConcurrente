@@ -9,7 +9,7 @@ public class Main {
 	private static RDP redDePetri;
 	private static Hilo hilos[];
 	private static String Nombres[] = {"1","2","3","4","5","6"};
-	private static final int tiempoCorrida = 1000;
+	private static final int tiempoCorrida = 600000; //millisegundo
 	
 	public static void main(String[] args) {
 	  
@@ -27,9 +27,14 @@ public class Main {
 				threads[i] = new Thread(hilos[i]);
 			}
 	     
-	     for(int j=0;j<numeroHilos;j++) {
+	     threads[0].start();
+	     threads[1].start();
+	     threads[2].start();
+	     threads[3].start();
+	     threads[4].start();
+	    /* for(int j=0;j<numeroHilos;j++) {
 				threads[j].start();
-			}
+			}*/
 	     try {
 				Thread.sleep(tiempoCorrida);
 			}
