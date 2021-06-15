@@ -49,4 +49,8 @@ public class Col {
 		}
 		return esperando;
 	}
+
+	public boolean isVacia(){
+		return transicionesEsperando.isEmpty();
+	}
 }

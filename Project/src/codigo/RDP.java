@@ -1,6 +1,8 @@
 package codigo;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -10,11 +12,6 @@ import java.util.Scanner;
 public class RDP {
 
 /////////Marcado inicial/////////////////////////////////////////////////////////
-	
-//private int [] VE  = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // Indica el numero de transciones sensibilizadas
-//private String[] Plazas = {"P1","P10","P11","P12","P13","P2","P3","P4","P5","P6","P7","P8","P9"};
-//private String [] Transiciones = {"T1","T10","T2","T3","T4","T5","T6","T7","T8","T9"};
-// private int [] Places = {0,1,10,13,14,15,17,18,19,20,22,23,24,25,26,27,28,29,3,30,31,4,5,8,9};
 	private String [] Transiciones;
 	private String[] Plazas;
 
@@ -22,6 +19,11 @@ public class RDP {
 	private Matriz Incidencia,Inhibicion,Identidad;
 	private final int numeroPlazas;
 	private final int numeroTransiciones;
+
+
+
+	private final List<Matriz> invariantes;
+	//private final List<List<Integer>> conflictos;
 	private Scanner input;
 	//private SensibilizadasConTiempo gestionarTiempo;
 	private Matriz IEntrada ;//,ISalida,
@@ -34,21 +36,18 @@ public RDP() {
 	
 	numeroTransiciones = cargarTransiciones("src/matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
 	numeroPlazas = cargarPlazas("src/matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
-
 	//Matrices
+	invariantes = cargarInvariantes("src/matrices/InvTrans.txt");
 	Incidencia = new Matriz(numeroPlazas,numeroTransiciones);
 	Inhibicion = new Matriz(numeroTransiciones,numeroPlazas);
 	Identidad = new Matriz(numeroTransiciones,numeroTransiciones);
 	IEntrada = new Matriz(numeroPlazas,numeroTransiciones);
-	//ISalida = new Matriz(numeroPlazas,numeroTransiciones);
 
 	//Vectores
 	VectorMarcadoActual = new Matriz(numeroPlazas,1);
 	VectorSensibilizado = new Matriz(numeroTransiciones, 1);
 	VectorInhibicion = new Matriz(numeroTransiciones, 1);
 	VectorExtendido = new Matriz(numeroTransiciones, 1);
-	//VectorMarcadoInicial = new Matriz(numeroPlazas,1);
-	//VectorMarcadoNuevo = new Matriz(numeroPlazas,1);
 
 	//Carga de datos
 	Incidencia.cargarMatriz("src/matrices/M.I.txt");
@@ -56,10 +55,45 @@ public RDP() {
 	VectorMarcadoActual.cargarMatriz("src/matrices/VMI.txt");
 	Identidad.cargarIdentidad();
 	IEntrada.cargarMatriz("src/matrices/M.Pre.txt");
-	//VectorMarcadoInicial.cargarMatriz("matrices/VMI.txt");
-	//ISalida.cargarMatriz("C:\\Users\\Administrador\\Desktop\\TP final\\M.Post.txt");
-	//sensibilizar();
+	//conflictos = cargarConflictos();
 }
+
+	/*private List<List<Integer>> cargarConflictos() {
+		List<List<Integer>> conf = new ArrayList<>();
+		for (int i = 0; i< IEntrada.getNumFilas(); i++){
+			List<Integer> c = new ArrayList<>();
+			for (int j = 0; i< IEntrada.getNumColumnas(); j++){
+				if(IEntrada.getDato(i,j) == 1){
+					c.add(j);
+				}
+			}
+			if(c.size()>1) conf.add(c);
+		}
+		return conf;
+	}*/
+
+	private List<Matriz> cargarInvariantes(String pathI) {
+		List<Matriz> invariantes = new ArrayList<>();
+		try {
+			input = new Scanner(new File(pathI));
+			while (input.hasNextLine()) {
+				String line = input.nextLine();
+				Matriz inv = new Matriz(1, numeroTransiciones);
+
+				for (int columna = 0; columna < line.length (); columna ++) {
+					char c = line.charAt (columna);
+					if(c == 1) inv.setDato(1, columna, 1);
+				}
+
+				invariantes.add(inv);
+
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return invariantes;
+	}
 
 	//METODOS PRIVADOS
 	//-----------------------------------------------------
@@ -109,6 +143,8 @@ public RDP() {
 		//System.out.println("Plazas -->"+Plazas);
 		return nroPlazas;
 	}
+
+
 	/**
 	 * Completa el string de Transiciones con la cantidad correspondiente
 	 * @param nroT: la cantidad de transiciones en la matriz de incidencia.
@@ -213,7 +249,7 @@ public RDP() {
 	 * Metodo que devuelve el vector con las transiciones sensibilizadas
 	 * @return vector extendido
 	 */
-	public Matriz getSensibilizadas() { return VectorSensibilizado; }
+	public Matriz getSensibilizadas() { return VectorExtendido; }
 
 	/**
 	 * Metodo que devuelve la matriz de inhibicion
@@ -237,6 +273,10 @@ public RDP() {
 	}
 
 	public Matriz getVectorMA() { return VectorMarcadoActual; }
+
+	public List<Matriz> getInvariantes() {
+		return invariantes;
+	}
 
 	/*public int posicion(int val) {
 		int pos = 0;

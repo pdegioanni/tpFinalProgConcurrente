@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Matriz {
 	//Campos
-	private int matriz[][];
+	private int[][] matriz;
 	private int filas;
 	private int columnas;
 	private Scanner input;

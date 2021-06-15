@@ -1,39 +1,127 @@
 package codigo;
 
-import java.util.Random;
+import java.util.*;
 
 
 public class Politica {
 	//Campos
-	private static final int Transicion1 = 1;
-	private static final int Transicion2 = 2;
-	private static final int Plaza1=1;
-	private static final int Plaza2=2;
-	private int politica;
-	public Politica(int politica){
-		this.politica = politica;
+	//private static final int Transicion1 = 1;
+	//private static final int Transicion2 = 2;
+//	private static final int Plaza1=1;
+//	private static final int Plaza2=2;
+//	private int politica;
+	private int[][] invariantes;
+	private List<Integer> vecesPorInvariante;
+
+	public Politica(int[][] invariantes){
+		this.invariantes = invariantes;
+		vecesPorInvariante = new ArrayList<>();
+		for(int i = 0; i< invariantes.length; i++){
+			vecesPorInvariante.add(0);
+		}
 	}
 	/**
 	 * Metodo que devuleve una transicion
 	 * @param m matriz que contiene el resultado de Vc and Vs
 	 * @return
 	 */
-	public int cual(Matriz m) {
-		Random rand = new Random();
-		int maximo = m.getNumColumnas();
-		int aleatorio=0,siguiente=0;
-		while(siguiente!=1) {
-			aleatorio = rand.nextInt(maximo);
-			siguiente=m.getDato(0, aleatorio);
+/*	public int cual(Matriz m) {
+		List<Integer> transicionesHabilitadas = new ArrayList<>();
+		TreeSet<Integer> invariantesPosibles = new TreeSet<Integer>() ;
+		for(int i = 0; i<m.getNumFilas(); i++){
+			if(m.getDato(i, 0) == 1) {
+				transicionesHabilitadas.add(i);
+				if(perteneceAInvariante(i)>=0) invariantesPosibles.add(i);
+			}
+
 		}
-		return aleatorio;
+		if (transicionesHabilitadas.size() == 1) return transicionesHabilitadas.get(0); //Solo hay una transicion, no hay necesidad de decidir
+		else{
+			//System.out.println("Llamada a comparar invariantes con " + invariantesPosibles.size());
+			int invarianteElegido = compararInvariantes(invariantesPosibles);
+			int transicion = transicionesHabilitadas.get(0);
+			for (int inv:transicionesHabilitadas){
+				if(perteneceAInvariante(inv) == invarianteElegido) transicion = inv;
+			}
+			return transicion;
+		}
+
+	}*/
+	public int cual(Matriz m) {
+		List<Integer> transicionesHabilitadas = new ArrayList<>();
+		for(int i = 0; i<m.getNumFilas(); i++){
+			if(m.getDato(i, 0) == 1) {
+				transicionesHabilitadas.add(i);
+			}
+		}
+		if (transicionesHabilitadas.size() == 1) return transicionesHabilitadas.get(0); //Solo hay una transicion, no hay necesidad de decidir
+		else{
+			int transicion = transicionesHabilitadas.get(0);
+			int invarianteMenosRepetido = vecesPorInvariante.get(0);
+			for(int v=0; v< vecesPorInvariante.size(); v++){
+				if (vecesPorInvariante.get(v) < invarianteMenosRepetido) invarianteMenosRepetido = vecesPorInvariante.get(v);
+			}
+			for (int t :transicionesHabilitadas) {
+				System.out.println("Politica T" + (t+1));
+				if (perteneceAInvariante(t) == invarianteMenosRepetido) return t;
+			}
+			/*for (int t :transicionesHabilitadas){
+				if(perteneceAInvariante(t) == invarianteMenosRepetido) return t;
+				else if(perteneceAInvariante(t) == 1) return t;
+				else if(perteneceAInvariante(t) == 0) return t;
+				else if(perteneceAInvariante(t) == -1) return t;
+			}*/
+			return transicion;
+		}
+
 	}
+
+	public void registrarDisparo(int nTransicion){
+		for(int i = 0; i< invariantes.length; i++){
+			for (int j = 0; j < invariantes[i].length; j++){
+				if(invariantes[i][j] == nTransicion) {
+					vecesPorInvariante.set(i,vecesPorInvariante.get(i) +1);
+				}
+			}
+		}
+	}
+
+	public int perteneceAInvariante(int transicion){
+		for(int i = 0; i < invariantes.length; i++){
+			for (int j = 0; j < invariantes[i].length; j++){
+				if(invariantes[i][j] == transicion) {
+					//System.out.println("hh " + i);
+					return i; //Devuelve el numero de invariante
+				}
+			}
+		}
+		return -1; //Si la transicion no pertenece a ningun invariante
+	}
+
+	private int compararInvariantes(TreeSet<Integer> invariantesPosibles){
+		int disparar = vecesPorInvariante.get(0);
+		if(invariantesPosibles.size() == 1) disparar = vecesPorInvariante.get(invariantesPosibles.first());
+		for(int i = 0; i<invariantesPosibles.size(); i++){
+			if(vecesPorInvariante.get(i) < disparar) disparar = vecesPorInvariante.get(i);
+		}
+		return disparar;
+	}
+
+	public void imprimirVecesPorInvariante(){
+		int i = 1;
+		for(int veces: vecesPorInvariante){
+			System.out.println("Invariante " + i + ": " + veces + " veces" );
+			i++;
+		}
+	}
+
+
 	/**
 	 * Metodo que modifica la red para remover las prioridades
 	 * @param m
 	 * @return
 	 */
-	public void quitarPrioridad(Matriz m) {
+	/*public void quitarPrioridad(Matriz m) {
 		switch(politica) {
 		case 1:
 			m.setDato(Plaza1, Transicion1, 0);
@@ -42,6 +130,6 @@ public class Politica {
 			m.setDato(Plaza2, Transicion2, 0);
 			break;
 		}
-	}
+	}*/
 
 }
