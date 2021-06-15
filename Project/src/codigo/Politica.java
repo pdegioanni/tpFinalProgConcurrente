@@ -5,18 +5,13 @@ import java.util.*;
 
 public class Politica {
 	//Campos
-	//private static final int Transicion1 = 1;
-	//private static final int Transicion2 = 2;
-//	private static final int Plaza1=1;
-//	private static final int Plaza2=2;
-//	private int politica;
 	private int[][] invariantes;
 	private List<Integer> vecesPorInvariante;
 
 	public Politica(int[][] invariantes){
 		this.invariantes = invariantes;
 		vecesPorInvariante = new ArrayList<>();
-		for(int i = 0; i< invariantes.length; i++){
+		for(int i = 0; i < invariantes.length; i++){
 			vecesPorInvariante.add(0);
 		}
 	}
@@ -51,38 +46,46 @@ public class Politica {
 		List<Integer> transicionesHabilitadas = new ArrayList<>();
 		for(int i = 0; i<m.getNumFilas(); i++){
 			if(m.getDato(i, 0) == 1) {
-				transicionesHabilitadas.add(i);
+				transicionesHabilitadas.add(i); //Saca las transiciones habilitadas a partir de la matriz m
 			}
 		}
-		if (transicionesHabilitadas.size() == 1) return transicionesHabilitadas.get(0); //Solo hay una transicion, no hay necesidad de decidir
-		else{
+		//if (transicionesHabilitadas.size() == 1) return transicionesHabilitadas.get(0); //Solo hay una transicion, no hay necesidad de decidir
+		//else{
 			int transicion = transicionesHabilitadas.get(0);
-			int invarianteMenosRepetido = vecesPorInvariante.get(0);
+			int invarianteMenosRepetido = vecesPorInvariante.get(1);
 			for(int v=0; v< vecesPorInvariante.size(); v++){
 				if (vecesPorInvariante.get(v) < invarianteMenosRepetido) invarianteMenosRepetido = vecesPorInvariante.get(v);
 			}
+			System.out.println("Invariante menos repetido " + invarianteMenosRepetido);
 			for (int t :transicionesHabilitadas) {
 				System.out.println("Politica T" + (t+1));
 				if (perteneceAInvariante(t) == invarianteMenosRepetido) return t;
 			}
-			/*for (int t :transicionesHabilitadas){
-				if(perteneceAInvariante(t) == invarianteMenosRepetido) return t;
-				else if(perteneceAInvariante(t) == 1) return t;
-				else if(perteneceAInvariante(t) == 0) return t;
-				else if(perteneceAInvariante(t) == -1) return t;
-			}*/
 			return transicion;
-		}
+		//}
 
 	}
 
-	public void registrarDisparo(int nTransicion){
-		for(int i = 0; i< invariantes.length; i++){
+	public void registrarDisparo(int nTransicion){ //No considera a T1 ni a T6
+		/*for(int i = 0; i< invariantes.length; i++){
 			for (int j = 0; j < invariantes[i].length; j++){
 				if(invariantes[i][j] == nTransicion) {
 					vecesPorInvariante.set(i,vecesPorInvariante.get(i) +1);
 				}
 			}
+		}*/
+		//Hardcodeado - ver de hacer alguna forma mas general, tipo lo de arriba pero que funcione bien
+		if(nTransicion == 3) {
+			System.out.println("Se disparo primer invariante");
+			vecesPorInvariante.set(0, (vecesPorInvariante.get(0)+1));
+		}
+		if(nTransicion == 4) {
+			System.out.println("Se disparo segundo invariante");
+			vecesPorInvariante.set(1, (vecesPorInvariante.get(1)+1));
+		}
+		if(nTransicion == 9) {
+			System.out.println("Se disparo tercer invariante");
+			vecesPorInvariante.set(2, (vecesPorInvariante.get(2)+1));
 		}
 	}
 
@@ -90,8 +93,7 @@ public class Politica {
 		for(int i = 0; i < invariantes.length; i++){
 			for (int j = 0; j < invariantes[i].length; j++){
 				if(invariantes[i][j] == transicion) {
-					//System.out.println("hh " + i);
-					return i; //Devuelve el numero de invariante
+					return i; //Devuelve el numero de invariante al que pertenece la transicion
 				}
 			}
 		}
@@ -114,22 +116,5 @@ public class Politica {
 			i++;
 		}
 	}
-
-
-	/**
-	 * Metodo que modifica la red para remover las prioridades
-	 * @param m
-	 * @return
-	 */
-	/*public void quitarPrioridad(Matriz m) {
-		switch(politica) {
-		case 1:
-			m.setDato(Plaza1, Transicion1, 0);
-			break;
-		case 2:
-			m.setDato(Plaza2, Transicion2, 0);
-			break;
-		}
-	}*/
 
 }

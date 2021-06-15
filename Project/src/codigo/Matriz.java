@@ -17,7 +17,6 @@ public class Matriz {
 	 * @param columnas numero de columnas
 	 */
 	public Matriz(int filas, int columnas) {
-		//System.out.println(filas+"<-->"+columnas);
 		this.filas = filas;
 		this.columnas = columnas;
 		matriz = new int [filas][columnas];
@@ -82,7 +81,6 @@ public class Matriz {
 	 * Metodo para imprimir los datos contenidos en la matriz
 	 */
 	public void imprimirMatriz() {
-		//System.out.println("Datos:");
 		System.out.println("############################################");
 		for(int i=0; i<filas; i++){
 			for(int j=0; j<columnas; j++) {
@@ -143,9 +141,7 @@ public class Matriz {
 		if(this.getNumColumnas()!=B.getNumFilas()) {
 			throw new RuntimeException("Las matrices tienen diferentes tamaños");
 		}
-		//Matriz Mult = new Matriz(B);
 		Matriz Mult = new Matriz(this.getNumFilas(),B.getNumColumnas());
-		//B.setDato(1, 1, 2);
 		int dat=0;
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<B.getNumColumnas(); j++) {
