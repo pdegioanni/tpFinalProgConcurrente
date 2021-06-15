@@ -12,10 +12,10 @@ public class Cola {
 	 * @param tam tamaño de la cola
 	 */
 	public Cola(int tam) {
-		this.tam=tam;
+		this.tam = tam;
 		semaforos = new Semaphore[tam];
-		for(int i=0; i<tam ;i++) {
-			semaforos[i] =new Semaphore(0,true);
+		for (int i=0; i<tam ;i++) {
+			semaforos[i] = new Semaphore(0,true);
 		}
 	}
 	/**

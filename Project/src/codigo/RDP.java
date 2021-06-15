@@ -32,8 +32,8 @@ public class RDP {
 ////Constructor
 public RDP() {
 	
-	numeroTransiciones = cargarTransiciones("matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
-	numeroPlazas = cargarPlazas("matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
+	numeroTransiciones = cargarTransiciones("src/matrices/M.I.txt");	//Extraccion de la cantidad de transiciones.
+	numeroPlazas = cargarPlazas("src/matrices/M.I.txt");				//Extraccion de la cantidad de plazas.
 
 	//Matrices
 	Incidencia = new Matriz(numeroPlazas,numeroTransiciones);
@@ -51,12 +51,12 @@ public RDP() {
 	//VectorMarcadoNuevo = new Matriz(numeroPlazas,1);
 
 	//Carga de datos
-	Incidencia.cargarMatriz("matrices/M.I.txt");
-	Inhibicion.cargarMatriz("matrices/M.B.txt");
-	VectorMarcadoActual.cargarMatriz("matrices/VMI.txt");
+	Incidencia.cargarMatriz("src/matrices/M.I.txt");
+	Inhibicion.cargarMatriz("src/matrices/M.B.txt");
+	VectorMarcadoActual.cargarMatriz("src/matrices/VMI.txt");
 	Identidad.cargarIdentidad();
+	IEntrada.cargarMatriz("src/matrices/M.Pre.txt");
 	//VectorMarcadoInicial.cargarMatriz("matrices/VMI.txt");
-	IEntrada.cargarMatriz("matrices/M.Pre.txt");
 	//ISalida.cargarMatriz("C:\\Users\\Administrador\\Desktop\\TP final\\M.Post.txt");
 	//sensibilizar();
 }
@@ -100,9 +100,6 @@ public RDP() {
 			while (input.hasNextLine()) {
 				 input.nextLine();
 				 nroPlazas ++;
-				
-				 
-				 
 			}
 			setStringPlazas(nroPlazas);
 		}
@@ -118,11 +115,7 @@ public RDP() {
 	 */
 	private void setStringTranciones(int nroT) {
 		Transiciones = new String[nroT];
-		int j = 0;
-		for(int t = 0; t<nroT; t++) {
-			j = t + 1;
-			Transiciones[t] = "T"+j;
-		}
+		for(int t = 1; t<nroT+1; t++) {	Transiciones[t-1] = "T"+t; }
 	}
 	/**
 	 * Completa el string de Plazas con la cantidad correspondiente
@@ -130,12 +123,7 @@ public RDP() {
 	 */
 	private void setStringPlazas(int nroP) {
 		Plazas = new String[nroP];
-		int j = 0;
-		for(int p = 0; p<nroP; p++)
-			{
-			  j = p+1;
-			  Plazas[p] = "P"+j;
-			}
+		for(int p = 1; p<nroP+1; p++) { Plazas[p-1] = "P"+p; }
 	}
 
 	/**
@@ -162,44 +150,19 @@ public RDP() {
 	 * Metodo que calcula el vector sensibilizado
 	 */
 	private void sensibilizarVectorE() {
-		
-		
 		//Incidencia.imprimirMatriz();
 	//	System.out.println(Incidencia.getNumColumnas());
 		//System.out.println(Incidencia.getNumFilas());
 		//VectorSensibilizado.imprimirMatriz();
-		/*for(int j=0; j<Incidencia.getNumColumnas(); j++){
-			for(int i = 0; i< Incidencia.getNumFilas(); i++){
-				
-				if((Incidencia.getDato(i,j) == -1) && (VectorMarcadoActual.getDato(0,i) > 0)) 
-					{
-					System.out.println("true");
-					VectorSensibilizado.imprimirMatriz();
-					VectorSensibilizado.setDato(j,0, 1);
-					VectorSensibilizado.imprimirMatriz();
-					//break;
-					}
-					
-				else { 
-					System.out.println("false");
-					VectorSensibilizado.imprimirMatriz();
-					VectorSensibilizado.setDato(j, 0, 0);
-				
-				}
-			}
-		}*/
-		
 		for (int i = 0; i < IEntrada.getNumColumnas(); i++) {
 			int e = 1;
 			for (int j = 0; j < Incidencia.getNumFilas(); j++) {
 				if (VectorMarcadoActual.getDato(j, 0) < IEntrada.getDato(j, i)) {
-					
 					e = 0;
 				}
 				VectorSensibilizado.setDato(i, 0, e);
 			}
 		}
-		
 		//VectorSensibilizado.imprimirMatriz();
 	}
 
@@ -213,9 +176,9 @@ public RDP() {
 		//VectorMarcadoActual.imprimirMatriz();
 		sensibilizarVectorB();
 		sensibilizarVectorE();
+		//sensibilizarVectorZ();
 		//VectorSensibilizado.getTranspuesta().imprimirMatriz();
 		//VectorInhibicion.getTranspuesta().imprimirMatriz();
-		//sensibilizarVectorZ();
 		//Ex = E and B and L and V and G and Z cambiar aca si algo se agrega
 		VectorExtendido = VectorSensibilizado.getAnd(VectorInhibicion);
 	}
@@ -240,8 +203,7 @@ public RDP() {
 	 * @param transicion : transicion la que se desea saber si está habilitada o no.
 	 * @return verdadero estan habilitadas
 	 */
-	public boolean estaSensibilizada(int transicion) 
-	{ 
+	public boolean estaSensibilizada(int transicion) {
 		if(VectorExtendido.getDato(transicion,0) == 1) 
 			return true; 
 		else return false;
