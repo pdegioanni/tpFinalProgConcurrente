@@ -18,7 +18,7 @@ public class Main {
 	public static void iniciarPrograma(){
 		 hilos = new Hilo[numeroHilos];
 		 redDePetri = new RDP();
-		 Politica politica = new Politica(numeroHilos);
+		 Politica politica = new Politica(redDePetri);
 	     Monitor monitor = new Monitor(redDePetri,politica);
 	     threads = new Thread[numeroHilos];
 	     
@@ -29,9 +29,9 @@ public class Main {
 	     
 	     threads[0].start();
 	     threads[1].start();
-	     threads[2].start();
-	     threads[3].start();
-	     threads[4].start();
+	    //threads[2].start();
+	      threads[3].start();
+	    //threads[4].start();
 	    /* for(int j=0;j<numeroHilos;j++) {
 				threads[j].start();
 			}*/

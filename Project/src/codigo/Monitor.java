@@ -35,7 +35,7 @@ public class Monitor {
 		//System.out.println("Se va a disparar: T"+ n_transicion);
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,17 +58,19 @@ public class Monitor {
 			
 			//System.out.println("Disparo: Transicion T"+ n_transicion);
 			System.out.println("-----------------------------------------------------");
-			red.mostrar(red.getSensibilizadas(), 0);
-			red.mostrar(red.getVectorMA(), 2);
-			red.mostrar(red.getMatrizInhibicion(), 0);
+			//red.mostrar(red.getSensibilizadas(), 0);
+			//red.mostrar(red.getVectorMA(), 2);
+			//red.mostrar(red.getMatrizInhibicion(), 0);
+			System.out.println("################## Se disparar :T"+(n_transicion+1));
 			k=red.Disparar(n_transicion);//, modo_de_disparo);
-			System.out.println("################## Se disparo :T"+(n_transicion+1) +" -> " + k +" ##################\n");
-			
-			red.mostrar(red.getSensibilizadas(), 0);
-			red.mostrar(red.getMatrizInhibicion(), 0);
+			System.out.print(k + "\n");
+			//System.out.println("################## Se disparo :T"+(n_transicion+1) +" -> " + k +" ##################\n");
+			//red.mostrar(red.getVectorZ().getTranspuesta() , 0);
+			//red.imprimirQ();
+			//red.mostrar(red.getMatrizInhibicion(), 0);
 			red.mostrar(red.getVectorMA(), 2);
 			System.out.println("========================================================");
-			/*if(k==true){
+			if(k==true){
 				m=calcularVsAndVc();
 				if(m==0){
 					k = false;
@@ -82,7 +84,7 @@ public class Monitor {
 			else {
 				mutex.release();//el hilo actual libera el monitor
 				cola.ponerEnCola(n_transicion);//en realidad se pone en cola porque fallo el disparo
-			}*/
+			}
 		}
 		mutex.release();//el hilo actual libera el monitor
 	}

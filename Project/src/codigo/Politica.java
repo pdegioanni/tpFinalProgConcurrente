@@ -5,13 +5,11 @@ import java.util.Random;
 
 public class Politica {
 	//Campos
-	private static final int Transicion1 = 1;
-	private static final int Transicion2 = 2;
-	private static final int Plaza1=1;
-	private static final int Plaza2=2;
 	private int politica;
-	public Politica(int politica){
-		this.politica = politica;
+	
+	private Matriz disparadas ;
+	public Politica(RDP red){
+		disparadas = new Matriz(red.numero_t(), 1);
 	}
 	/**
 	 * Metodo que devuleve una transicion
@@ -34,14 +32,9 @@ public class Politica {
 	 * @return
 	 */
 	public void quitarPrioridad(Matriz m) {
-		switch(politica) {
-		case 1:
-			m.setDato(Plaza1, Transicion1, 0);
-			break;
-		case 2:
-			m.setDato(Plaza2, Transicion2, 0);
-			break;
-		}
+		
 	}
-
+    public void set_D(int Transicion) {
+    	
+    }
 }
