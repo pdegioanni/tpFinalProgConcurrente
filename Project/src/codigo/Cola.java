@@ -1,62 +1,63 @@
 package codigo;
 
-import java.util.concurrent.Semaphore;
-public class Cola {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+public class Cola {
 	//Campos
-	private Semaphore semaforos[];
-	private int tam;
+	private Set<Integer> transicionesEsperando;
+	private int cantTransiciones;
 	/**
-	 * Constructor de la clase Cola que inicia un semaforo para cada elemento 
+	 * Constructor de la clase Cola que inicia un semaforo para cada elemento
 	 * que se encuentre en la misma, de esta manera el hilo se queda esperando en la cola.
-	 * @param tam tamaño de la cola
+	 * @param cantTransiciones Cantidad de transiciones para armar vector Vc
 	 */
-	public Cola(int tam) {
-		this.tam=tam;
-		semaforos = new Semaphore[tam];
-		for(int i=0; i<tam ;i++) {
-			semaforos[i] =new Semaphore(0,true);
-		}
+	public Cola(int cantTransiciones) {
+		this.cantTransiciones = cantTransiciones;
+		//transicionesEsperando = new ArrayList<>();
+		transicionesEsperando = new TreeSet<>();
 	}
 	/**
 	 * Metodo que debe devolver el vector con los hilos que estan en cola 
 	 * @return Vc matriz con los hilos que esperan 
 	 */
 	public Matriz quienesEstan(){
-		Matriz Vc = new Matriz(1,tam);
-		for(int i=0; i<tam; i++){
-			if(semaforos[i].hasQueuedThreads()) {
-				Vc.setDato(0, i, 1);
-			}
-			else {
-				Vc.setDato(0, i, 0);
-			}
+		Matriz Vc = new Matriz(cantTransiciones,1);
+		for(Integer transicion : transicionesEsperando){
+			Vc.setDato(transicion, 0, 1);
 		}
 		return Vc;
 	}
 	/**
 	 * Metodo que saca el siguiente hilo a ejecutar
-	 * @param Transicion 
+	 * @param transicion
 	 */
-	public void sacarDeCola(int Transicion) {
-		if(semaforos[Transicion]!=null){
-			semaforos[Transicion].release();
-		}
+	public void sacarDeCola(Integer transicion) {
+		transicionesEsperando.remove(transicion);
 	}
 	/**
 	 * Metodo que debe poner en cola el hilo en una ubicacion determinada para esa transicion
-	 * @param Transicion transicion que intento realizar el disparo
+	 * @param transicion transicion que intento realizar el disparo
 	 */
 	 
-	public void ponerEnCola(int Transicion) {
-		if(semaforos[Transicion]!=null) {
-			try {
-				semaforos[Transicion].acquire();
-			}
-			catch(InterruptedException e){
-				System.out.println("Error al intentar poner en cola");
-				e.printStackTrace();
-			}
+	public boolean ponerEnCola(Integer transicion) {
+		boolean agregado;
+		agregado = transicionesEsperando.add(transicion);
+		//agregado = transicionesEsperando.add(3);
+		System.out.println(agregado);
+		return agregado;
+	}
+	public String imprimirCola(){
+		String esperando = "Esperando: ";
+		for(Integer transicion : transicionesEsperando){
+			esperando += " T"+(transicion+1);
 		}
+		return esperando;
+	}
+
+	public boolean isVacia(){
+		return transicionesEsperando.isEmpty();
 	}
 }

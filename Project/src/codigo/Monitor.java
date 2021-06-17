@@ -7,103 +7,129 @@ public class Monitor {
 
 	//Campos
 	private RDP red;
-	private Semaphore mutex;	
-	private Cola cola; 			//cola donde se pondran los hilos
+	private Cola cola; 		//cola donde se pondran los hilos
 	private Politica politica;
-	private Matriz and;			//matriz que contiene el resultado Vc&Vs 
+	private boolean continuar;
+	private Log log;
+	private int nTransicion;
+	//private Semaphore mutex;
+
 	/**
 	 * Constructor de la clase Monitor
 	 */
 	public Monitor(RDP red,Politica politica) {
-		this.politica = politica;
 		this.red = red; 										//la red sobre la cual se trabajara
-		//politica.quitarPrioridad(red.getMatrizInhibicion());
+		this.politica = politica;
+		this.log = new Log();
+		cola = new Cola(red.getSensibilizadas().getNumFilas());
+		continuar = true;
+		nTransicion = 0;
+		//mutex = new Semaphore(1,true);						//el semaforo que se utilizara, solo uno puede entrar y es justo.
 		red.sensibilizar();
-		cola = new Cola(red.getSensibilizadas().getNumColumnas());
-		mutex = new Semaphore(1,true);							//el semaforo que se utilizara, solo uno puede entrar y es justo. 
 	}
-     ////////////////////Metodos
+	////////////////////Metodos
 	 /**
      * Este metodo dispara una transicion de la rdp indicada por parametro, teniendo en cuenta el modo indicado por parametro
      * y recalcula el vector de sensibilizadas tambien tiene en cuenta si la transicion a disparar esta o no sensibilizada.
-     *@param n_transicion numero de transicion. 
+     *@param siguienteEnHilo numero de transicion.
      *@return : -0 retorna 0 si el disparo no es exitoso. 
      *          -1 retorna 1 si el disparo no es exitoso.
      */
-	public void dispararTransicion(int n_transicion)
-	{   
-		//System.out.println("Se va a disparar: T"+ n_transicion);
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+	public synchronized void dispararTransicion(int siguienteEnHilo) {
+
+		/*try {
+			mutex.acquire(); //Cola de entrada al monitor
+
 		}
-		try {
-			mutex.acquire();
-			}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		
-		
-		boolean k = true;
-		int m = 0;
-		int n_t;
-		while(k == true) {
-			//red.mostrar(red.getVectorMA(), 2);
-			
-			//System.out.println("Disparo: Transicion T"+ n_transicion);
-			System.out.println("-----------------------------------------------------");
-			//red.mostrar(red.getSensibilizadas(), 0);
-			//red.mostrar(red.getVectorMA(), 2);
-			//red.mostrar(red.getMatrizInhibicion(), 0);
-			System.out.println("################## Se disparar :T"+(n_transicion+1));
-			k=red.Disparar(n_transicion);//, modo_de_disparo);
-			System.out.print(k + "\n");
-			//System.out.println("################## Se disparo :T"+(n_transicion+1) +" -> " + k +" ##################\n");
-			//red.mostrar(red.getVectorZ().getTranspuesta() , 0);
-			//red.imprimirQ();
-			//red.mostrar(red.getMatrizInhibicion(), 0);
+
+		}*/
+
+		boolean k = true; //Hay un proceso dentro del monitor
+		Matriz m;
+
+		while(k) {
+			//System.out.printf("Hilo %s quiere disparar transicion T%d\n", Thread.currentThread().getName(), nTransicion+1);
+			/*System.out.println("-----------------------------------------------------");
+			red.mostrar(red.getSensibilizadas(), 0);
 			red.mostrar(red.getVectorMA(), 2);
-			System.out.println("========================================================");
-			if(k==true){
-				m=calcularVsAndVc();
-				if(m==0){
-					k = false;
+			red.mostrar(red.getMatrizInhibicion(), 0);*/
+
+			k = red.Disparar(siguienteEnHilo);
+
+			if(k){ //Disparo exitoso
+
+				System.out.printf("##### Hilo %s disparo T%d\n", Thread.currentThread().getName(), siguienteEnHilo+1);
+				System.out.println("Sensibilizadas");
+				red.mostrar(red.getSensibilizadas(), 0);
+				//red.mostrar(red.getMatrizInhibicion(), 0);
+				//red.mostrar(red.getVectorMA(), 2);
+				System.out.println("========================================================");
+
+				politica.registrarDisparo(siguienteEnHilo); //Lleva la cuenta de la cantidad de veces que se dispara cada invariante.
+				log.registrarDisparo("T"+ (siguienteEnHilo+1)); //Escribe en el log
+
+				m = calcularVsAndVc(); //Ver si alguno de las transiciones que estaban en la cola de espera ahora pueden dispararse
+				System.out.println("m: ");
+
+				if (m.esNula()) {
+					k = false;  //No hay transiciones esperando para disparar
+					System.out.println("No hay transiciones compatibles en la cola");
+					System.out.println(cola.imprimirCola()); //Imprime cola de hilos esperando
+					nTransicion = -1; //Para que no avance ninguno de los hilos que estan en el wait
+
 				}
-				else {//<>0
-					 n_t = politica.cual(and);//que hilo?
-					cola.sacarDeCola(n_t);//este metodo obtiene el siguiente hilo debido a que el anterior disparo exitosamente
-					//aca creeria que deberiamos expulsar el primer hilo
+				else { //Transiciones que estaban en la cola ahora pueden disparar
+					nTransicion = politica.cual(m); //De las transiciones sensibilizadas que estan en la cola, cual deberia disparar?
+					System.out.println("Nuevo numero de transicion T" + (nTransicion+1));
+					System.out.println(cola.imprimirCola());
+					cola.sacarDeCola(nTransicion);//Ya no esta esperando
+					notifyAll(); //Despierta a todos los hilos para que tome el monitor el que este esperando por la nueva transicion definida
+					k = false; //Para que salga del monitor
 				}
 			}
 			else {
-				mutex.release();//el hilo actual libera el monitor
-				cola.ponerEnCola(n_transicion);//en realidad se pone en cola porque fallo el disparo
+				//mutex.release();//el hilo actual libera el monitor
+				//Se lo pone en la cola porque todavía no se cumplió la condición para que pueda dispararse
+				boolean encola = cola.ponerEnCola(siguienteEnHilo); //Solo se agrega si no hay otro hilo esperando por la misma transicion
+				if(encola){
+					System.out.printf("Hilo %s esperando para disparar T%d\n", Thread.currentThread().getName(), siguienteEnHilo + 1);
+					System.out.println(cola.imprimirCola());
+					notifyAll(); //Despierta al resto antes de irse a dormir
+					do{
+						try {
+							wait();
+						} catch (InterruptedException e) {
+							continuar = false;
+							k = false;
+							//notifyAll();
+						}
+						//System.out.printf("Hilo %s siguiente en hilo T%d, nTransicion %d\n", Thread.currentThread().getName(), siguienteEnHilo + 1, nTransicion + 1);
+					} while ((siguienteEnHilo != nTransicion) || !continuar);
+					if(continuar) {
+						System.out.printf("Hilo %s ahora puede disparar T%d\n", Thread.currentThread().getName(), siguienteEnHilo + 1);
+						k = true; //Para que dispare en vez de salir del monitor
+					}
+				}
+
+
 			}
 		}
-		mutex.release();//el hilo actual libera el monitor
+		System.out.printf("Hilo %s deja el monitor\n", Thread.currentThread().getName());
+		//mutex.release();//el hilo actual libera el monitor
 	}
 	/**
 	 * Metodo que realiza la operacion And entre Vs y Vc, luego 
 	 * se examina la matriz resultante y devuelve 1 o 0
 	 * @return 
 	 */
-	public int calcularVsAndVc(){
+	public Matriz calcularVsAndVc(){
 		Matriz Vs = red.getSensibilizadas();
 		Matriz Vc = cola.quienesEstan();
-		and = Vs.getAnd(Vc);//m
-		if(and.esNula()) {
-			return 0;
-			}
-		return 1;
+		Matriz m = Vs.getAnd(Vc);
+		return m;
 	}
-	void imprimir() {
-			System.out.println("----------------------------------MONITOR----------------------------------\n");
-     }  
 
 }
