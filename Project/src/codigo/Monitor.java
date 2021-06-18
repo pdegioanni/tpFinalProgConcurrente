@@ -1,6 +1,7 @@
 package codigo;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 
 public class Monitor {
@@ -11,7 +12,10 @@ public class Monitor {
 	private Politica politica;
 	private boolean continuar;
 	private Log log;
+	private Log consola;
 	private int nTransicion;
+	private final String REPORT_FILE_NAME_1 = "log1.txt";
+	private final String REPORT_FILE_NAME_2 = "log2.txt";
 	//private Semaphore mutex;
 
 	/**
@@ -20,7 +24,8 @@ public class Monitor {
 	public Monitor(RDP red,Politica politica) {
 		this.red = red; 										//la red sobre la cual se trabajara
 		this.politica = politica;
-		this.log = new Log();
+		this.log = new Log(REPORT_FILE_NAME_1);
+		this.consola = new Log(REPORT_FILE_NAME_2);
 		cola = new Cola(red.getSensibilizadas().getNumFilas());
 		continuar = true;
 		nTransicion = 0;
@@ -46,7 +51,14 @@ public class Monitor {
 			e.printStackTrace();
 
 		}*/
-
+		
+    		try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
 		boolean k = true; //Hay un proceso dentro del monitor
 		Matriz m;
 
@@ -56,21 +68,27 @@ public class Monitor {
 			red.mostrar(red.getSensibilizadas(), 0);
 			red.mostrar(red.getVectorMA(), 2);
 			red.mostrar(red.getMatrizInhibicion(), 0);*/
-
+			System.out.printf("############################################ Hilo %s disparo T%d\n", Thread.currentThread().getName(), siguienteEnHilo+1);
+			//red.mostrar(red.getSensibilizadas(), 0);
+			consola.registrarDisparo(red.sensibilidadas(red.getSensibilizadas())+ "Transicion :" + (siguienteEnHilo+1));
+			consola.registrarDisparo(red.Marcado(red.getVectorMA())+"\n");
+			//log.registrarDisparo(red.sensibilidadas(red.getSensibilizadas(), 0));
 			k = red.Disparar(siguienteEnHilo);
+			red.mostrar(red.getSensibilizadas(), 0);
+			if(k){ //Disparo exitoso 
 
-			if(k){ //Disparo exitoso
-
-				System.out.printf("##### Hilo %s disparo T%d\n", Thread.currentThread().getName(), siguienteEnHilo+1);
+				//System.out.printf("############################################  Hilo %s disparo T%d\n", Thread.currentThread().getName(), siguienteEnHilo+1);
+				//consola.registrarDisparo(red.sensibilidadas(red.getSensibilizadas()));
+				//consola.registrarDisparo(red.Marcado(red.getVectorMA())+"\n");
 				System.out.println("Sensibilizadas");
-				red.mostrar(red.getSensibilizadas(), 0);
-				//red.mostrar(red.getMatrizInhibicion(), 0);
-				//red.mostrar(red.getVectorMA(), 2);
+				//red.mostrar(red.getSensibilizadas(), 0);
+				  //red.mostrar(red.getMatrizInhibicion(), 0);
+				  //red.mostrar(red.getVectorMA(), 2);
 				System.out.println("========================================================");
 
 				politica.registrarDisparo(siguienteEnHilo); //Lleva la cuenta de la cantidad de veces que se dispara cada invariante.
 				log.registrarDisparo("T"+ (siguienteEnHilo+1)); //Escribe en el log
-
+                
 				m = calcularVsAndVc(); //Ver si alguno de las transiciones que estaban en la cola de espera ahora pueden dispararse
 				System.out.println("m: ");
 
@@ -80,7 +98,7 @@ public class Monitor {
 					System.out.println(cola.imprimirCola()); //Imprime cola de hilos esperando
 					nTransicion = -1; //Para que no avance ninguno de los hilos que estan en el wait
 
-				}
+				} // k = false
 				else { //Transiciones que estaban en la cola ahora pueden disparar
 					nTransicion = politica.cual(m); //De las transiciones sensibilizadas que estan en la cola, cual deberia disparar?
 					System.out.println("Nuevo numero de transicion T" + (nTransicion+1));
@@ -92,13 +110,15 @@ public class Monitor {
 			}
 			else {
 				//mutex.release();//el hilo actual libera el monitor
-				//Se lo pone en la cola porque todavía no se cumplió la condición para que pueda dispararse
+				//Se lo pone en la cola porque todavia no se cumplia la condicion para que pueda dispararse
 				boolean encola = cola.ponerEnCola(siguienteEnHilo); //Solo se agrega si no hay otro hilo esperando por la misma transicion
 				if(encola){
 					System.out.printf("Hilo %s esperando para disparar T%d\n", Thread.currentThread().getName(), siguienteEnHilo + 1);
 					System.out.println(cola.imprimirCola());
 					notifyAll(); //Despierta al resto antes de irse a dormir
+					
 					do{
+						
 						try {
 							wait();
 						} catch (InterruptedException e) {
@@ -113,8 +133,8 @@ public class Monitor {
 						k = true; //Para que dispare en vez de salir del monitor
 					}
 				}
-
-
+  
+				k = false;
 			}
 		}
 		System.out.printf("Hilo %s deja el monitor\n", Thread.currentThread().getName());

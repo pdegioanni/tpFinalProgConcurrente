@@ -118,7 +118,5 @@ public class Politica {
 		}
 
 	}
-    public void set_D(int Transicion) {
-    	
-    }
+  
 }

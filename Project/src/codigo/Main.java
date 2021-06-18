@@ -51,12 +51,13 @@ public class Main {
 		for(int i=0; i<numeroHilos;i++) {
 			threads[i].start();
 		}
-	     /*
-	     threads[0].start();
-	     threads[1].start();
-	     threads[2].start();
-	     threads[3].start();
-	     threads[4].start();*/
+	     
+	     // threads[0].start();
+	     // threads[1].start();
+	     // threads[2].start();
+	     // threads[3].start();
+	     //threads[4].start();
+	     //threads[5].start();
 	     try {
 				Thread.sleep(tiempoCorrida);
 			}
@@ -64,10 +65,11 @@ public class Main {
 				e.printStackTrace();
 				System.out.println("Error al intentar dormir el hilo principal");
 			}
-			for(int k=0;k<numeroHilos;k++) {
+			/*for(int k=0;k<numeroHilos;k++) {
 				//hilos[k].set_Fin();
 				threads[k].interrupt();
-			}
+			}*/
+			//threads[5].interrupt();
 
 			/*for(int k=0;k<numeroHilos;k++) {
 				try {

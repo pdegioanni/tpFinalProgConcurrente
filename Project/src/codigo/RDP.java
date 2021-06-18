@@ -19,7 +19,7 @@ public class RDP {
 	private Matriz Incidencia,Inhibicion,Identidad;
 	private Matriz Intervalo;
     private Matriz VectorZ;
-	private final int numeroPlazas;
+    private final int numeroPlazas;
 	private final int numeroTransiciones;
 
 
@@ -28,6 +28,8 @@ public class RDP {
 	//private final List<List<Integer>> conflictos;
 	private Scanner input;
 	private long clk [] ,Q[]; 
+	private int [] Tim;
+	private int flag_count;
 	//private SensibilizadasConTiempo gestionarTiempo;
 	private Matriz IEntrada ;//,ISalida,
 	//private Matriz VectorMarcadoInicial,  VectorMarcadoNuevo;
@@ -54,7 +56,7 @@ public RDP() {
 	VectorSensibilizado = new Matriz(numeroTransiciones, 1);
 	VectorInhibicion = new Matriz(numeroTransiciones, 1);
 	VectorExtendido = new Matriz(numeroTransiciones, 1);
-
+    
 	VectorZ = new Matriz(1,numeroTransiciones);
 	
     //Carga de datos
@@ -66,7 +68,7 @@ public RDP() {
 	IEntrada.cargarMatriz("matrices/M.Pre.txt");
 	Q = new long[numeroTransiciones];
 	clk = new long[numeroTransiciones];
-
+	Tim  = new int[numeroTransiciones];
 
 
 	//Carga de datos
@@ -225,73 +227,99 @@ public RDP() {
 	 * Metodo que sensibiliza las transiciones y carga el vector extendido
 	 */
 	public void sensibilizar() {
-		//VectorMarcadoActual.imprimirMatriz();
 		sensibilizarVectorB();
 		sensibilizarVectorE();
-
-		sensibilizarVectorZ();
+        sensibilizarVectorZ();
 		VectorExtendido = VectorSensibilizado.getAnd(VectorInhibicion).getAnd(VectorZ.getTranspuesta());
-
-	}
+    }
     public void sensibilizarVectorZ() {
-	    Matriz Tim  = new Matriz(1,numeroTransiciones); 
-		Matriz Auxiliar  = new Matriz(1,numeroTransiciones);
+    	//Intervalo.imprimirMatriz();
+	    Matriz Auxiliar  = new Matriz(1,numeroTransiciones);
 		Auxiliar =VectorSensibilizado.getAnd(VectorInhibicion);;
 		int flag = 0;
 		for(int fila = 0 ; fila<numeroTransiciones; fila++) {
 	         if((Auxiliar.getDato(fila,0) == 1 ) 
-	        	&& (Intervalo.getDato(1, fila)-Intervalo.getDato(0, fila) > 0)){ //(Beta - Alpha) es mayor a cero y se sensibilizo.
-	        	 System.out.println("Sensibilizad : "+Intervalo.getDato(1, fila) + " tansicion " + (fila+1));
-	        	 System.out.println("---> " +Intervalo.getDato(1, fila) + " -- "+ Intervalo.getDato(0, fila));
-	        	 System.out.println("Transiciones con tiempo :"+ fila);
-	        	 if(Q[fila] == 0 ) {
+	        	&& (Intervalo.getDato(1, fila)-Intervalo.getDato(0, fila) > 0)
+	        	&& (Tim[fila] == 0)
+	        		 ){ //(Beta - Alpha) es mayor a cero y se sensibilizo.
+	        	 System.out.println("Sensibilizada           : "+Intervalo.getDato(1, fila) + " Transicion " + (fila+1));
+	        	 System.out.println("Intervalo               : [" +Intervalo.getDato(0, fila) + " - "+ Intervalo.getDato(1, fila)+"]");
+	        	 if(Q[fila] == 0 ) 
+	        	 {
 				  		clk[fila] = System.currentTimeMillis();
 				  		Q[fila] = System.currentTimeMillis();
 				  		flag = 1;
-				  		
-			       }
-				else{						
-						Q[fila] =System.currentTimeMillis(); //Tiempo transcurrido desde que se inicio el contador 
+				 }
+				 else
+				 {						
+					    Q[fila] =System.currentTimeMillis(); //Tiempo transcurrido desde que se inicio el contador 
 						if((Q[fila] -clk[fila])!=0) {
 						Q[fila] = Q[fila] -clk[fila];
-					}
+				 }
 				}
 			}
 			else Q[fila] = 0;
 		}
+		/*
+		 * Me fijo cuales Q son distintos de cero para cargar un cero o un uno en el vector Tim
+		 * 
+		 */
+		
 		for(int k = 0 ; k<numeroTransiciones; k++) {
 		    if( (Q[k]<= (Intervalo.getDato(1, k)*1000)) && (Auxiliar.getDato(k,0) == 1) && (Q[k] !=0) )
-					
 			{
 				System.out.println("Entro");
-				Tim.setDato(0, k, 0);
+				VectorZ.setDato(0, k, 0);
 			}
-			else if( (Q[k] > (Intervalo.getDato(1, k)*1000)) && (Auxiliar.getDato(k,0) == 1) && (Q[k] !=0) &&  (flag != 1))
+			else if( (Q[k] > (Intervalo.getDato(1, k)*1000))
+					&& (Auxiliar.getDato(k,0) == 1) 
+					&& (Q[k] !=0) &&  (flag != 1)) //Tiempo cumplido
 			{
 				System.out.println("Caso especial");
 				Q[k]=0;
-				Tim.setDato(0, k, 1);
+				clk[k]=0;
+				Tim[k]=1;
+				VectorZ.setDato(0, k, 1);
 			}
 			else
 		    { 
-				//Q[k]=0;
+				//Primera vez.
 				if((flag == 1) && (Q[k] > 0) )
 				{
 					System.out.println("setear");
-					Tim.setDato(0, k, 0);
+					VectorZ.setDato(0, k, 0);
 				}
 				else {
-				Tim.setDato(0, k, 1);
+					VectorZ.setDato(0, k, 1);
 			
 				}
-		    }//
+		    }
 		}
-		
-		VectorZ = Tim;
+		imprimirQ();
+		//VectorZ = Tim;
 		System.out.println("VectorZ");
 		VectorZ.imprimirMatriz();
+	    
 	}
     
+	public void imprimirQ(){ 
+		System.out.print("Q   : ");
+		for(int i = 0 ;i< Q.length ; i++) {
+			System.out.print(Q[i]+ " ");
+		}
+		System.out.println();
+		System.out.print("clk : ");
+		for(int i = 0 ;i< clk.length ; i++) {
+			System.out.print(clk[i]+ " ");
+		}
+		System.out.println();
+		System.out.print("Tim : ");
+		for(int i = 0 ;i< Tim.length ; i++) {
+			System.out.print(Tim[i]+ " ");
+		}
+		//VectorZ.imprimirMatriz();
+		System.out.println("\n====================================");
+		}
 	/**
 	 * Este metodo dispara una transicion de la rdp indicada por parametro, teniendo en cuenta el modo indicado por parametro
 	 *@param transicion : numero de transicion.
@@ -299,33 +327,88 @@ public RDP() {
 	 *          -1 retorna 1 si el disparo es exitoso.
 	 */
 	public boolean Disparar(int transicion){
-		if(!estaSensibilizada(transicion))
+		boolean k;
+		
+	/*	k = testVentanaTiempo(transicion);// Pregunto si ya cumplio la ventana de tiempo
+		
+		if(k==true)
+		{
+			System.out.println("Resetea");
+			Tim[transicion] = 0;//Entonces ya cumplio si ventana de tiempo solo le resta dispararse
+			//sensibilizar();
+		}
+		else
+		
+		{*/
+			System.out.println("Actualiza el tiempo");
+			sensibilizarVectorZ();
+			boolean flag;
+			flag = Tim_esta_vacio();
+			if(flag == false)
 			{
-			 System.out.println("ACa" + transicion );
-			 sensibilizar();
-			 return false;
+				sensibilizar();
 			}
+			
+		//}
+		
+		
+		if(!estaSensibilizada(transicion))
+		{
+			// sensibilizar(); //Actualiza el vector extendido, solo cambia el vectorZ
+			 return false;
+		}
+		k = testVentanaTiempo(transicion);
+		if(k==true)
+		{
+			System.out.println("Resetea");
+			
+			if((transicion == 1) )
+			{
+				System.out.println("Resetear "+ transicion + " y " + (transicion+1) );
+				Tim[transicion] = 0;
+				Tim[transicion+1] = 0;
+			}
+			if(transicion == 2)
+			{
+				System.out.println("Resetear "+ transicion + " y " + (transicion+1) );
+				Tim[transicion] = 0;
+				Tim[transicion-1] = 0;
+			}
+			else Tim[transicion] = 0;//Entonces ya cumplio si ventana de tiempo solo le resta dispararse
+			//sensibilizar();
+		}
 		Matriz aux = Incidencia.getMultiplicacion(Identidad.getColumna(transicion)); //Probleamas con el numero de la transicion
 		VectorMarcadoActual = VectorMarcadoActual.getSuma(aux);
-		System.out.println("sensibilizar");
 		sensibilizar();
 		return true;
 	}
+	
+	
+	public boolean Tim_esta_vacio() {
+	
+		for(int t : Tim) {
+		   if(t == 1)
+		   {
+			   flag_count ++;
+			   return false;
+		   }
+		}
+		return true; // no hay ninguna transicion que haya completado su ventana de tiempo
+	}
+	/**
+	 * Este metodo nos dice que ya cumplio con el tiempo de la ventana de tiempo
+	 * @param transicion
+	 */
+	public boolean testVentanaTiempo(int transicion) {
+	
+		if(Tim[transicion] == 1)
+		{
+			return true;  // Retorna que ya cumplio su tiempo
+		}
+		else return false;
+	}
 	//public Matriz getVectorZ() { return VectorZ; }
-	public void imprimirQ(){ 
-		System.out.println("....Q....");
-		for(int i = 0 ;i< Q.length ; i++) {
-			System.out.print(Q[i]+ " ");
-		}
-		System.out.println();
-		System.out.println(".....clk....");
-		for(int i = 0 ;i< clk.length ; i++) {
-			System.out.print(clk[i]+ " ");
-		}
-		System.out.println();
-		VectorZ.imprimirMatriz();
-		System.out.println("====================================");
-		}
+	
 	public Matriz getVectorZ() { return VectorZ; }
 	/**
 	 * Devuelve true si la transicion esta habilitada de acuerdo al vector extendido
@@ -342,9 +425,6 @@ public RDP() {
 	 * @return vector extendido
 	 */
 	public Matriz getSensibilizadas() { return VectorExtendido; }
-
-
-
 	/**
 	 * Metodo que devuelve la matriz de inhibicion
 	 * @return matriz inhibicion
@@ -363,16 +443,30 @@ public RDP() {
 				for(int n=0 ; n<vector.getNumFilas(); n++) System.out.print(Plazas [n] +":" +  vector.getDato(n, 0) +" ");
 			}
 			System.out.println("\n");
+		   
 	}
-
+	public String sensibilidadas(Matriz vector) {
+		//System.out.println("\n");
+		String Transiciones_sensibilizadas = "";
+		
+			for(int n=0 ; n<vector.getNumFilas() ; n++)
+				{
+				Transiciones_sensibilizadas += Transiciones[n] +":" + vector.getDato(n, 0) +" ";
+				}
+		return Transiciones_sensibilizadas;
+}
+	public String Marcado(Matriz vector) {
+		//System.out.println("\n");
+		String Marcado_actual = "";
+		for(int n=0 ; n<vector.getNumFilas() ; n++)
+				{
+				Marcado_actual += Plazas[n] +":" + vector.getDato(n, 0) +" ";
+				}
+		return Marcado_actual;
+}
 	public Matriz getVectorMA() { return VectorMarcadoActual; }
-
 	public int numero_t() { return numeroTransiciones; }
-
-
 	public List<Matriz> getInvariantes() {
 		return invariantes;
 	}
-
-
 }

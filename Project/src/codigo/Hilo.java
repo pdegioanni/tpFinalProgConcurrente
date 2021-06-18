@@ -21,7 +21,7 @@ public class Hilo implements Runnable {
 				siguienteTransicion = secuencia[i] - 1;
 				monitor.dispararTransicion(siguienteTransicion);
 				try {
-            		TimeUnit.MILLISECONDS.sleep(500);
+            		TimeUnit.MILLISECONDS.sleep(1);
         		} catch (InterruptedException e) {
 					//System.out.printf("Interrumpido hilo %s", Thread.currentThread().getName());
 					continuar = false;
