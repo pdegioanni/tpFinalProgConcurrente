@@ -121,7 +121,7 @@ public class Matriz {
 	 * @return
 	 */
 	public Matriz getAnd(Matriz B){
-		Matriz And = new Matriz(B);
+		Matriz And = new Matriz(filas , columnas);
 		for(int i=0; i<this.getNumFilas(); i++) {
 			for(int j=0; j<this.getNumColumnas(); j++) {
 				if(this.getDato(i,j) == 1 && B.getDato(i, j) == 1) And.setDato(i,j,1);

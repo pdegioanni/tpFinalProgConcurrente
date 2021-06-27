@@ -18,21 +18,19 @@ public class Hilo implements Runnable {
 	public void run() {
 		while(continuar) {
 			for(int i=0;i<secuencia.length;i++) {
-				siguienteTransicion = secuencia[i] - 1;
-				monitor.dispararTransicion(siguienteTransicion);
-				try {
-            		TimeUnit.MILLISECONDS.sleep(1);
-        		} catch (InterruptedException e) {
-					//System.out.printf("Interrumpido hilo %s", Thread.currentThread().getName());
-					continuar = false;
-        		}
+				siguienteTransicion = secuencia[i]-1;
+				//monitor.dispararTransicion(siguienteTransicion);
+				//System.out.println("NOMBRE DEL HILO "+ Thread.currentThread().getName()); 
+				//System.out.println("NOMBRE DE LA TRANSICION "+ secuencia[i] ); 
+				 
+	             monitor.dispararTransicion(siguienteTransicion);
 			}
 		}
 		//System.out.printf("Fin de hilo %s\n", Thread.currentThread().getName());
 	}
 
-	/*public void set_Fin()
+	public void set_Fin()
 	{
 		continuar = false;
-	}*/
+	}
 }
