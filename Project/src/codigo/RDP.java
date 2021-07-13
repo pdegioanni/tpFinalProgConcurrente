@@ -19,7 +19,6 @@ public class RDP {
 	private Matriz Incidencia,Inhibicion,Identidad;
 	private Matriz Intervalo;
     private Matriz VectorZ;
-    private Matriz VectorG;
     private final int numeroPlazas;
 	private final int numeroTransiciones;
     
@@ -53,8 +52,7 @@ public class RDP {
 	VectorExtendido = new Matriz(numeroTransiciones, 1);
     
 	VectorZ = new Matriz(1,numeroTransiciones);
-	VectorG = new Matriz(numeroTransiciones,1);
-    //Carga de datos
+	//Carga de datos
 	Incidencia.cargarMatriz("matrices/M.I.txt");
 	Inhibicion.cargarMatriz("matrices/M.B.txt");
 	VectorMarcadoActual.cargarMatriz("matrices/VMI.txt");
@@ -65,7 +63,6 @@ public class RDP {
 	SensibilizadaConTiempo  = new long[numeroTransiciones];
 	
 	sensibilizarVectorZ();
-	sensibilizarVectorG();
     }
 	
     private List<Matriz> cargarInvariantes(String pathI) {
@@ -154,12 +151,7 @@ public class RDP {
 		Plazas = new String[nroP];
 		for(int p = 1; p<nroP+1; p++) { Plazas[p-1] = "P"+p; }
 	}
-	private void sensibilizarVectorG() {
-		for(int i=0; i < numeroTransiciones; i++) {
-			   VectorG.setDato(i, 0, 1);
-           }
-		VectorG.getTranspuesta().imprimirMatriz();
-	}
+	
 	/**
 	 * Metodo que calcula el vector Inhibicion
 	 */
