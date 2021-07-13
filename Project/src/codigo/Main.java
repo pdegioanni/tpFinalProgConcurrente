@@ -1,8 +1,8 @@
 package codigo;
 
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Main {
 
@@ -52,7 +52,7 @@ public class Main {
 			threads[i].start();
 		}
 	     
-	   /*    threads[0].start();
+	   /*  threads[0].start();
 	       threads[1].start();
 	       threads[2].start();
 	       threads[3].start();

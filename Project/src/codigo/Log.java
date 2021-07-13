@@ -34,7 +34,6 @@ public class Log {
 		}
     }
     
-
     //PUBLIC METHODS
     //------------------------------------------------------------------------------------------------------------------
     public void registrarDisparo(String cadena,int tipo) {

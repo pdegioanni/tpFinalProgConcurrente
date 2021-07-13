@@ -27,7 +27,7 @@ public class SensibilizadaConTiempo {
 	
 	public void esperar(int transicion) {
 		try{//obtengo el valor en milisegundos que espera
-			red.setEsperando(transicion);
+			red.setEsperando(transicion); 
 			Thread.sleep(red.Intervalo().getDato(1, transicion));
 		} catch (InterruptedException e) {
 		e.printStackTrace();

@@ -1,8 +1,5 @@
 package codigo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
@@ -22,12 +19,12 @@ public class Cola {
 		this.cantTransiciones = cantTransiciones;
 		//transicionesEsperando = new ArrayList<>();
 		transicionesEsperando = new TreeSet<>();
-		semaforos = new Semaphore[cantTransiciones];
+		semaforos = new Semaphore[cantTransiciones]; 
 		for (int i = 0; i < cantTransiciones; i++) {
 			semaforos[i] = new Semaphore(0);
         }
 		
-	}
+     }
 	/**
 	 * Metodo que debe devolver el vector con los hilos que estan en cola 
 	 * @return Vc matriz con los hilos que esperan 
@@ -89,8 +86,6 @@ public class Cola {
 		if(semaforos[nTransicion]!=null){
 		 semaforos[nTransicion].release();
 		}
-
-	}
-	
+    }
 }
 

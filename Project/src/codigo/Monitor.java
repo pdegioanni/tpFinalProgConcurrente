@@ -59,9 +59,7 @@ public class Monitor {
 			}
 			retorna_del_sleep = 1;
 		}
-   //red.mostrar(red.getSensibilizadas(),0);
-  //red.mostrar(red.getVectorMA(),2);
-	
+    
 	if(retorna_del_sleep == 1)
 	{
 		//System.out.println("Viene de un sleep");
@@ -80,10 +78,11 @@ public class Monitor {
 	    	k = red.Disparar(siguienteEnHilo);// Hilo "+ Thread.currentThread().getName()
 			System.out.println("#################################################  Disparo T"+ (siguienteEnHilo+1));
 			if(k)
-			{  politica.registrarDisparo(siguienteEnHilo); 
-			if((siguienteEnHilo+1) == 10)
-	    		log.registrarDisparo("T"+0,0);
-	    	else 	log.registrarDisparo("T"+(siguienteEnHilo+1),0);
+			{ 
+				politica.registrarDisparo(siguienteEnHilo); 
+				if((siguienteEnHilo+1) == 10)
+					log.registrarDisparo("T"+0,0);
+				else 	log.registrarDisparo("T"+(siguienteEnHilo+1),0);
 	    	
 				m = calcularVsAndVc();
 				if (m.esNula())

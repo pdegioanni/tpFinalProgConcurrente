@@ -153,14 +153,14 @@ public class Politica {
 		return -1; //Si la transicion no pertenece a ningun invariante
 	}
 
-	private int compararInvariantes(TreeSet<Integer> invariantesPosibles){
+	/*private int compararInvariantes(TreeSet<Integer> invariantesPosibles){
 		int disparar = vecesPorInvariante.get(0);
 		if(invariantesPosibles.size() == 1) disparar = vecesPorInvariante.get(invariantesPosibles.first());
 		for(int i = 0; i<invariantesPosibles.size(); i++){
 			if(vecesPorInvariante.get(i) < disparar) disparar = vecesPorInvariante.get(i);
 		}
 		return disparar;
-	}
+	}*/
 
 	public void imprimirVecesPorInvariante(){
 		int i = 1;

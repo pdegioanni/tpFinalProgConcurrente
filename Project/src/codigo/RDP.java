@@ -52,8 +52,6 @@ public class RDP {
 	VectorInhibicion = new Matriz(numeroTransiciones, 1);
 	VectorExtendido = new Matriz(numeroTransiciones, 1);
     
-	
-	
 	VectorZ = new Matriz(1,numeroTransiciones);
 	VectorG = new Matriz(numeroTransiciones,1);
     //Carga de datos
