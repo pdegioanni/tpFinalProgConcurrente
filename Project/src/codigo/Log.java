@@ -13,8 +13,6 @@ public class Log {
     private final String REPORT_FILE_NAME;
     Log(String REPORT_FILE_NAME){
         this.REPORT_FILE_NAME = REPORT_FILE_NAME;
-    	FileWriter file = null;
-        PrintWriter pw = null;
         BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(REPORT_FILE_NAME));
@@ -39,11 +37,14 @@ public class Log {
 
     //PUBLIC METHODS
     //------------------------------------------------------------------------------------------------------------------
-    public void registrarDisparo(String cadena) {
-        try {
+    public void registrarDisparo(String cadena,int tipo) {
+       if(tipo == 0)
+    	   
+       {
+    	try {
             file = new FileWriter(REPORT_FILE_NAME, true);
             pw = new PrintWriter(file);
-            pw.println(cadena);
+            pw.print(cadena);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -55,5 +56,24 @@ public class Log {
                 e2.printStackTrace();
             }
         }
+       }
+       else
+       {
+    	   try {
+               file = new FileWriter(REPORT_FILE_NAME, true);
+               pw = new PrintWriter(file);
+               pw.println(cadena);
+           } catch (Exception e) {
+               e.printStackTrace();
+           } finally {
+               try {
+                   if (null != file) {
+                       file.close();
+                   }
+               } catch (Exception e2) {
+                   e2.printStackTrace();
+               }
+           }
+       }
     }
 }

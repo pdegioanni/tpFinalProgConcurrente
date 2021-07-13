@@ -75,14 +75,16 @@ public class Monitor {
 	}       
 	        red.mostrar(red.getSensibilizadas(),0);
 	        red.mostrar(red.getVectorMA(), 2);
-	        consola.registrarDisparo(red.sensibilidadas(red.getSensibilizadas()) +" Disparo "+(siguienteEnHilo+1) );
-	    	consola.registrarDisparo(red.Marcado(red.getVectorMA()));//+"\n");
-	    	log.registrarDisparo("T"+(siguienteEnHilo+1));
+	        consola.registrarDisparo(red.sensibilidadas(red.getSensibilizadas()) +" Disparo "+(siguienteEnHilo+1),2);
+	    	consola.registrarDisparo(red.Marcado(red.getVectorMA()),2);//+"\n");
 	    	k = red.Disparar(siguienteEnHilo);// Hilo "+ Thread.currentThread().getName()
 			System.out.println("#################################################  Disparo T"+ (siguienteEnHilo+1));
 			if(k)
 			{  politica.registrarDisparo(siguienteEnHilo); 
-				
+			if((siguienteEnHilo+1) == 10)
+	    		log.registrarDisparo("T"+0,0);
+	    	else 	log.registrarDisparo("T"+(siguienteEnHilo+1),0);
+	    	
 				m = calcularVsAndVc();
 				if (m.esNula())
 			    {

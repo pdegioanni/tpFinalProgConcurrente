@@ -6,16 +6,16 @@ import java.util.List;
 
 public class Main {
 
-	private static final int numeroHilos = 6;
+	private static final int numeroHilos = 7;
 	//private static int[][] Secuencias = {{1},{2,4},{3,5},{6},{7,8,9,10}};
 	private static int[][] secComunes = {{1},{6}};
 	private static int[][] secInvariante = {{2,4},{3,5},{7,8,9,10}};
 	private static Hilo[] hilos;
 	private static Thread[] threads;
 	//private static String[] Nombres = {"1","2","3","4","5","6", "7"};
-	private static final int tiempoCorrida =1000; // 60000; //milisegundos
+	private static final int tiempoCorrida =30000; // 60000; //milisegundos
 	private static RDP redDePetri;
-	private List<int[]> invariantes;
+	//private List<int[]> invariantes;
 
 	public static void main(String[] args) {
 		iniciarPrograma();
@@ -36,7 +36,7 @@ public class Main {
 		hilos[3] = new Hilo("T6", monitor, secComunes[1]);
 		hilos[4] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
 		hilos[5] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
-		//hilos[6] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
+		hilos[6] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
 		/*for(int i = 4; i<numeroHilos; i++){
 			hilos[i] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
 		}*/
