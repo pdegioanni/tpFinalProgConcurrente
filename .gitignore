@@ -13,3 +13,7 @@ Project\log2.txt
 *.ipr
 *.iws
 *.idea/
+
+#Eclipse
+*.project
+*.classpath
