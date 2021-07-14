@@ -25,9 +25,8 @@ public class RDP {
 	private final List<Matriz> invariantes;
 	private Scanner input;
 	private long SensibilizadaConTiempo[]; 
-	private int [] Tim;
-	private Matriz IEntrada ;//,ISalida,
-
+	private Matriz IEntrada ;
+	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //EL VALOR ACTUAL ES IGUAL AL INICIAL
 ////Constructor
@@ -50,8 +49,8 @@ public class RDP {
 	VectorSensibilizado = new Matriz(numeroTransiciones, 1);
 	VectorInhibicion = new Matriz(numeroTransiciones, 1);
 	VectorExtendido = new Matriz(numeroTransiciones, 1);
-    
-	VectorZ = new Matriz(1,numeroTransiciones);
+    VectorZ = new Matriz(1,numeroTransiciones);
+	
 	//Carga de datos
 	Incidencia.cargarMatriz("matrices/M.I.txt");
 	Inhibicion.cargarMatriz("matrices/M.B.txt");
@@ -59,7 +58,6 @@ public class RDP {
 	Intervalo.cargarMatriz("matrices/IZ.txt");
 	Identidad.cargarIdentidad();
 	IEntrada.cargarMatriz("matrices/M.Pre.txt");
-	Tim  = new int[numeroTransiciones];
 	SensibilizadaConTiempo  = new long[numeroTransiciones];
 	
 	sensibilizarVectorZ();
@@ -130,7 +128,6 @@ public class RDP {
 	  catch (IOException e) {
 		  e.printStackTrace();
 	  }
-		//System.out.println("Plazas -->"+Plazas);
 		return nroPlazas;
 	}
 
@@ -163,22 +160,16 @@ public class RDP {
 			else Q.setDato(i, 0, 0);
 
 		}
-		//Inhibicion.imprimirMatriz();
 		VectorInhibicion = Inhibicion.getMultiplicacion(Q);
 		for(int i=0; i < VectorInhibicion.getNumFilas(); i++) {
 			if(VectorInhibicion.getDato(i, 0)>1)VectorInhibicion.setDato(i, 0, 1);
 		}
 		VectorInhibicion = VectorInhibicion.getComplemento();
-		//VectorInhibicion.imprimirMatriz();
 	}
 	/**
 	 * Metodo que calcula el vector sensibilizado
 	 */
 	private void sensibilizarVectorE() {
-		//Incidencia.imprimirMatriz();
-	//	System.out.println(Incidencia.getNumColumnas());
-		//System.out.println(Incidencia.getNumFilas());
-		//VectorSensibilizado.imprimirMatriz();
 		for (int i = 0; i < IEntrada.getNumColumnas(); i++) {
 			int e = 1;
 			for (int j = 0; j < Incidencia.getNumFilas(); j++) {
@@ -188,8 +179,8 @@ public class RDP {
 				VectorSensibilizado.setDato(i, 0, e);
 			}
 		}
-		//VectorSensibilizado.imprimirMatriz();
 	}
+	
 	//METODOS PUBLICOS
 	//-----------------------------------------------------
 	/**
@@ -235,27 +226,9 @@ public class RDP {
 		return true;
 	}
 	
-	
-	/**
-	 * Este metodo nos dice que ya cumplio con el tiempo de la ventana de tiempo
-	 * @param transicion
-	 */
-	public boolean testVentanaTiempo(int transicion) {
-	
-		if(Tim[transicion] == 1)
-		{
-			return true;  // Retorna que ya cumplio su tiempo
-		}
-		else return false;
-	}
     public Matriz Intervalo() {return Intervalo;}
-	public long [] SensibilizadaConTiempo() {return SensibilizadaConTiempo;}
 	
-	
-	
-	
-	
-	//public Matriz getVectorZ() { return VectorZ; }
+    public long [] SensibilizadaConTiempo() {return SensibilizadaConTiempo;}
 	
 	public Matriz getVectorZ() { return VectorZ; }
 	/**
@@ -311,9 +284,12 @@ public class RDP {
 				Marcado_actual += Plazas[n] +":" + vector.getDato(n, 0) +" ";
 				}
 		return Marcado_actual;
-}
+    }
+	
 	public Matriz getVectorMA() { return VectorMarcadoActual; }
+	
 	public int numero_t() { return numeroTransiciones; }
+	
 	public List<Matriz> getInvariantes() {
 		return invariantes;
 	}

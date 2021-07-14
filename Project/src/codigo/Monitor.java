@@ -94,7 +94,7 @@ public class Monitor {
 				}
 				else
 				{ //Transiciones que estaban en la cola ahora pueden disparar
-					    nTransicion = politica.cual(m,cola.quienesEstan(),red.getVectorZ()); //De las transiciones sensibilizadas que estan en la cola, cual deberia disparar?
+					    nTransicion = politica.cual(m); //De las transiciones sensibilizadas que estan en la cola, cual deberia disparar?
 						//System.out.println("TRANSICION A DESPERTAR :::::::> " + (nTransicion+1));
 						cola.sacar_de_Cola(nTransicion);//Ya no esta esperando
 						k = false; //Para que salga del monitor

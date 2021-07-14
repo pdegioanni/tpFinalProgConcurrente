@@ -30,13 +30,13 @@ public class Main {
 
 		threads = new Thread[numeroHilos];
 
-		hilos[0] = new Hilo("T1", monitor, secComunes[0]);
-		hilos[1] = new Hilo("T2T4", monitor, secInvariante[0]);
-	    hilos[2] = new Hilo("T3T5", monitor, secInvariante[1]);
-		hilos[3] = new Hilo("T6", monitor, secComunes[1]);
-		hilos[4] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
-		hilos[5] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
-		hilos[6] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
+		hilos[0] = new Hilo(monitor, secComunes[0]);
+		hilos[1] = new Hilo(monitor, secInvariante[0]);
+	    hilos[2] = new Hilo(monitor, secInvariante[1]);
+		hilos[3] = new Hilo(monitor, secComunes[1]);
+		hilos[4] = new Hilo(monitor, secInvariante[2]);
+		hilos[5] = new Hilo(monitor, secInvariante[2]);
+		hilos[6] = new Hilo(monitor, secInvariante[2]);
 		/*for(int i = 4; i<numeroHilos; i++){
 			hilos[i] = new Hilo("T7T8T9T10", monitor, secInvariante[2]);
 		}*/
@@ -73,7 +73,7 @@ public class Main {
 				threads[k].interrupt();;
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(1000); //espero que termine el interrupt
 			}
 			catch(InterruptedException e) {
 				e.printStackTrace();

@@ -171,7 +171,8 @@ public class Matriz {
 	}
 
 	/**
-	 * Metodo que devuelve una matriz con los datos complementarios de la matriz que llamo el metodo
+	 * M
+	 * etodo que devuelve una matriz con los datos complementarios de la matriz que llamo el metodo
 	 * @return Matriz complemento
 	 */
 	public Matriz getComplemento() {

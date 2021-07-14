@@ -23,32 +23,8 @@ public class Politica {
 	 * @param m matriz que contiene el resultado de Vc and Vs
 	 * @return
 	 */
-/*	public int cual(Matriz m) {
-		List<Integer> transicionesHabilitadas = new ArrayList<>();
-		TreeSet<Integer> invariantesPosibles = new TreeSet<Integer>() ;
-		for(int i = 0; i<m.getNumFilas(); i++){
-			if(m.getDato(i, 0) == 1) {
-				transicionesHabilitadas.add(i);
-				if(perteneceAInvariante(i)>=0) invariantesPosibles.add(i);
-			}
 
-		}
-		if (transicionesHabilitadas.size() == 1) return transicionesHabilitadas.get(0); //Solo hay una transicion, no hay necesidad de decidir
-		else{
-			//System.out.println("Llamada a comparar invariantes con " + invariantesPosibles.size());
-			int invarianteElegido = compararInvariantes(invariantesPosibles);
-			int transicion = transicionesHabilitadas.get(0);
-			for (int inv:transicionesHabilitadas){
-				if(perteneceAInvariante(inv) == invarianteElegido) transicion = inv;
-			}
-			return transicion;
-		}
-
-	}*/
-	public int cual(Matriz m, Matriz estan , Matriz esperando) {
-	   /*System.out.println("===============TOMAR UNA DECISION==================");
-		estan.getTranspuesta().imprimirMatriz();
-	    m.getTranspuesta().imprimirMatriz();*/
+	public int cual(Matriz m) {
 	    List<Integer> aux_1 =  new ArrayList<>();
 	    List<Integer> aux_2 =  new ArrayList<>();
 	    int tmp;
@@ -124,22 +100,6 @@ public class Politica {
 		}
 		
 		disparos.set(nTransicion , (disparos.get(nTransicion)+1));
-	   /*
-	    System.out.println("Tamanio de inv " + invariantes.length);
-		System.out.println("0 - " + invariantes[0][0]);
-		System.out.println("0 - " + invariantes[0][1]+"\n");
-		System.out.println("1 - " + invariantes[1][0]);
-		System.out.println("1 - " + invariantes[1][1]+"\n");
-		System.out.println("2 - " + invariantes[2][0]);
-		System.out.println("2 - " + invariantes[2][1]);
-		System.out.println("2 - " + invariantes[2][2]);
-		System.out.println("2 - " + invariantes[2][3]+"\n");
-		
-		System.out.println("Transiscion = " + (nTransicion+1)+" Disparo = " + disparos.get(nTransicion));
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		*/
-		//imprimirVecesPorInvariante();
-		
 	}
 
 	public int perteneceAInvariante(int transicion){
@@ -152,16 +112,7 @@ public class Politica {
 		}
 		return -1; //Si la transicion no pertenece a ningun invariante
 	}
-
-	/*private int compararInvariantes(TreeSet<Integer> invariantesPosibles){
-		int disparar = vecesPorInvariante.get(0);
-		if(invariantesPosibles.size() == 1) disparar = vecesPorInvariante.get(invariantesPosibles.first());
-		for(int i = 0; i<invariantesPosibles.size(); i++){
-			if(vecesPorInvariante.get(i) < disparar) disparar = vecesPorInvariante.get(i);
-		}
-		return disparar;
-	}*/
-
+   
 	public void imprimirVecesPorInvariante(){
 		int i = 1;
 		for(int veces: vecesPorInvariante){
