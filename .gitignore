@@ -1,6 +1,15 @@
-/Project/.idea/
-/Project/src/codigo/.idea
-/Project/src/codigo/codigo.iml
-/Project/bin/
-/Project/TP final.iml
-/Project/log.txt
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.svn/
+Project\log.txt
+Project\log1.txt
+Project\log2.txt
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+*.idea/
