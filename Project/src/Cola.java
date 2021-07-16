@@ -1,55 +1,73 @@
-package codigo;
-
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
 public class Cola {
 	//Campos
-	private Set<Integer> transicionesEsperando;
-	private int cantTransiciones;
-	private Semaphore [] semaforos;
+	private final Set<Integer> transicionesEsperando;
+	private final int cantTransiciones;
+	private final Semaphore [] semaforos;
 	
 	/**
-	 * Constructor de la clase Cola que inicia un semaforo para cada elemento
-	 * que se encuentre en la misma, de esta manera el hilo se queda esperando en la cola.
-	 * @param cantTransiciones Cantidad de transiciones para armar vector Vc
+	 * Constructor de la clase Cola que inicia un semaforo para cada transición de la Red de Petri.
+	 * @param cantTransiciones Cantidad de transiciones para armar array de semáforos
 	 */
 	public Cola(int cantTransiciones) {
 		this.cantTransiciones = cantTransiciones;
-		//transicionesEsperando = new ArrayList<>();
 		transicionesEsperando = new TreeSet<>();
+
 		semaforos = new Semaphore[cantTransiciones]; 
 		for (int i = 0; i < cantTransiciones; i++) {
-			semaforos[i] = new Semaphore(0);
+			semaforos[i] = new Semaphore(0); //Se inicializa un semáforo binario para cada transición
         }
-		
      }
+
 	/**
-	 * Metodo que debe devolver el vector con los hilos que estan en cola 
-	 * @return Vc matriz con los hilos que esperan 
+	 * Metodo que debe devolver el vector con los hilos que estan en cola
+	 * @return Vc matriz con los hilos que esperan en la cola
 	 */
 	public Matriz quienesEstan(){
 		Matriz Vc = new Matriz(cantTransiciones,1);
 		for(Integer transicion : transicionesEsperando){
 			Vc.setDato(transicion, 0, 1);
 		}
-		
 		return Vc;
 	}
 	
 	/**
-	 * Metodo que debe poner en cola el hilo en una ubicacion determinada para esa transicion
-	 * @param transicion transicion que intento realizar el disparo
+	 * Metodo que encola el hilo según la transición que está intentando disparar
+	 * @param transicion transicion que intenta realizar el disparo
 	 */
-	 
 	public boolean ponerEnCola(Integer transicion) {
-		boolean agregado;
-		agregado = transicionesEsperando.add(transicion);
-		//agregado = transicionesEsperando.add(3);
-		//System.out.println(agregado);
+		boolean agregado = false;
+		if(semaforos[transicion] != null) {
+			try {
+				agregado = transicionesEsperando.add(transicion);
+				semaforos[transicion].acquire(); //se queda esperando
+			}
+			catch(InterruptedException e){
+				System.out.println("Error al intentar poner transicion en cola");
+				e.printStackTrace();
+			}
+		}
 		return agregado;
 	}
+
+	/**
+	 * Metodo que desencola el hilo según la transición indicada
+	 * @param transicion transicion para la cual se quiere liberar el semáforo
+	 */
+	public void sacarDeCola(Integer transicion) {
+		transicionesEsperando.remove(transicion);
+		if(semaforos[transicion]!=null){
+			semaforos[transicion].release();
+		}
+	}
+
+	/**
+	 * Metodo que imprime la cola de las transiciones esperando
+	 *
+	 */
 	public String imprimirCola(){
 		String esperando = "Esperando: ";
 		
@@ -58,34 +76,20 @@ public class Cola {
 		}
 		return esperando;
 	}
-    
-	public int Tamanio(){
+
+	/**
+	 * @return la cantidad de transiciones esperando
+	 */
+	public int getCantTransicionesEsperando(){
 		return transicionesEsperando.size();
 	}
+
+	/**
+	 * @return 0 si transiciones esperando, 1 si la cola de espera está vacía
+	 */
 	public boolean isVacia(){
 		return transicionesEsperando.isEmpty();
 	}
-	
-	public void poner_EnCola(int Transicion) {
-		   
-		//System.out.println("Se pone en la cola "+ (Transicion+1));
-		//transicionesEsperando.add(Transicion);
-		if(semaforos[Transicion]!=null) {
-			
-			try {
-					semaforos[Transicion].acquire(); //se queda esperando
-			}
-			catch(InterruptedException e){
-				System.out.println("Error al intentar poner en cola");
-				e.printStackTrace();
-			}
-		}	
-	}
-	public void sacar_de_Cola(int nTransicion) {
-		transicionesEsperando.remove(nTransicion);
-		if(semaforos[nTransicion]!=null){
-		 semaforos[nTransicion].release();
-		}
-    }
+
 }
 

@@ -1,23 +1,22 @@
-package codigo;
-
 import java.util.*;
-
 
 public class Politica {
 	//Campos
 
-	private int[][] invariantes;
-	private List<Integer> vecesPorInvariante;
-	private List<Integer> disparos;
+	private final int[][] invariantes;
+	private final List<Integer> vecesPorInvariante;
+	private final List<Integer> disparos;
 
 	public Politica(int[][] invariantes){
 		this.invariantes = invariantes;
 		vecesPorInvariante = new ArrayList<>();
-		disparos = new ArrayList<Integer>(Collections.nCopies(10, 0));
+		disparos = new ArrayList<>(Collections.nCopies(10, 0));
 		for(int i = 0; i < invariantes.length; i++){
 			vecesPorInvariante.add(0);
 		}
 	}
+
+
 	/**
 	 * Metodo que devuleve una transicion
 	 * @param m matriz que contiene el resultado de Vc and Vs
@@ -30,27 +29,22 @@ public class Politica {
 	    int tmp;
 		int k=0;
 	    
-		for(int i = 0 ; i<10 ; i++)
-	    {
-	    	if(m.getDato(i, 0)==1)
-	    	{
+		for(int i = 0 ; i<10 ; i++) {
+	    	if(m.getDato(i, 0)==1) {
 	    		aux_1.add(k,i);
 	    		k++;
 	    	}
 	    }
+
 		tmp = disparos.get(aux_1.get(0));
-	    for(int i = 0 ; i<aux_1.size();i++)
-	    {
-	    	if( disparos.get(aux_1.get(i)) < tmp)
-	     	{
-	     			tmp = disparos.get(aux_1.get(i));
-	     	}
-	    }
+		for (Integer integer : aux_1) {
+			if (disparos.get(integer) < tmp) {
+				tmp = disparos.get(integer);
+			}
+		}
 	    
-	    for(int j = 0; j<aux_1.size();j++)
-	    {
-	    	if(tmp !=  disparos.get(aux_1.get(j)))
-	    	{
+	    for(int j = 0; j<aux_1.size();j++) {
+	    	if(tmp !=  disparos.get(aux_1.get(j))) {
 	    		aux_1.set(j, -1);
 	    	}
 	    }
@@ -64,13 +58,12 @@ public class Politica {
 	    for (Integer deleteCandidate : aux_2) {
 		       aux_1.remove(deleteCandidate);
 		    }
+
 	    int n = aux_2.size();
-	    if(n == 1)
-	    {
+	    if(n == 1) {
 	    	return aux_2.get(0);
 	    }
-	    else
-	    {
+	    else {
 	    	int number = (int) (Math.random() * n);
 	    	return aux_2.get(number);
 	    }

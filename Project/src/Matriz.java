@@ -1,15 +1,12 @@
-package codigo;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Matriz {
 	//Campos
-	private int[][] matriz;
-	private int filas;
-	private int columnas;
-	private Scanner input;
+	private final int[][] matriz;
+	private final int filas;
+	private final int columnas;
 
 	/**
 	 * Constructor de la clase Matriz
@@ -24,7 +21,7 @@ public class Matriz {
 
 	/**
 	 * Constructor de la clase Matriz
-	 * @param matrizModelo se recibe una matriz modelo
+	 * @param matrizModelo se recibe una matriz modelo sobre la cual copiar el número de filas y columnas
 	 */
 	public Matriz(Matriz matrizModelo) {
 		this.matriz = matrizModelo.matriz;
@@ -92,13 +89,13 @@ public class Matriz {
 	}
 
 	/**
-	 * 
-	 * @param archivo
+	 * Método que genera una matriz a partir de los datos almacenados en un archivo
+	 * @param archivo El archivo de donde se obtendrán los datos de la matriz.
 	 */
 	public void cargarMatriz(String archivo){
 		 int fila=0;
-		 try { 
-		 	input = new Scanner(new File(archivo));
+		 try {
+			 Scanner input = new Scanner(new File(archivo));
 			while (input.hasNextLine()) {
 				String linea = input.nextLine();
 				String[] datos = linea.split("	");
@@ -118,7 +115,7 @@ public class Matriz {
 	 * Metodo que realiza la operacion logica AND entre la matriz que llama
 	 * el metodo y la matriz que se pasa por parametro
 	 * @param B La matriz con la que se hace la operacion AND
-	 * @return
+	 * @return La matriz resultado de la operación AND
 	 */
 	public Matriz getAnd(Matriz B){
 		Matriz And = new Matriz(filas , columnas);
@@ -139,7 +136,7 @@ public class Matriz {
 	 */
 	public Matriz getMultiplicacion(Matriz B) {
 		if(this.getNumColumnas()!=B.getNumFilas()) {
-			throw new RuntimeException("Las matrices tienen diferentes tama�os");
+			throw new RuntimeException("Las matrices tienen diferentes tama�os");
 		}
 		Matriz Mult = new Matriz(this.getNumFilas(),B.getNumColumnas());
 		int dat=0;

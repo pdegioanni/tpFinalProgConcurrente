@@ -1,4 +1,4 @@
-package codigo;
+
 
 
 //import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class Main {
 			}
 	     
 			for(int k=0;k<numeroHilos;k++) {
-				hilos[k].set_Fin();;
+				hilos[k].setFin();;
 			}
 			for(int k=0;k<numeroHilos;k++) {
 				threads[k].interrupt();;
